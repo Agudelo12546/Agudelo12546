@@ -1,0 +1,1266 @@
+<title>Trabajo Ya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una columna con tres pasos en pestañas; el resaltador amarillo marca la acción principal de cada paso. */
+:root{
+  --paper:#F4F6F9; --sheet:#FFFFFF; --ink:#18202E; --muted:#576277; --line:#DAE0E9; --soft:#ECF0F5;
+  --hl:#FFE14A; --hl-ink:#18202E; --go:#0D6B59; --go-ink:#FFFFFF; --warn:#A8501A; --ok:#1D7440;
+  --f-ui:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:12px;
+  --paperw:#FFFFFF; --papink:#18202E; --papmuted:#5A6273; --paprule:#C8CED6;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0F131A; --sheet:#161B24; --ink:#E6EAF1; --muted:#9AA3B4; --line:#283041; --soft:#1C2230;
+  --hl:#E8CA36; --hl-ink:#11151C; --go:#43C2A2; --go-ink:#0A1916; --warn:#E89C66; --ok:#5DCB8B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0F131A; --sheet:#161B24; --ink:#E6EAF1; --muted:#9AA3B4; --line:#283041; --soft:#1C2230;
+  --hl:#E8CA36; --hl-ink:#11151C; --go:#43C2A2; --go-ink:#0A1916; --warn:#E89C66; --ok:#5DCB8B; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 60px}
+h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance}
+p{margin:0}
+a{color:var(--go);text-underline-offset:3px}
+mark{background:linear-gradient(100deg,transparent 0 2%,var(--hl) 3% 97%,transparent 98%);color:var(--hl-ink);padding:0 .15em;border-radius:3px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--go);outline-offset:2px;border-radius:4px}
+.wrap{max-width:860px;margin:0 auto}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);margin-inline:-16px;padding:12px 16px 0;border-bottom:1px solid var(--line)}
+.brand{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.tabs{display:flex;gap:4px;overflow-x:auto;margin-top:10px}
+.tab{all:unset;cursor:pointer;padding:10px 14px;font-weight:600;font-size:15px;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap;display:flex;gap:8px;align-items:center}
+.tab .n{font-family:var(--f-mono);font-size:12px;font-weight:500}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--hl)}
+.tab .badge{font-family:var(--f-mono);font-size:11px;background:var(--hl);color:var(--hl-ink);border-radius:99px;padding:0 6px}
+
+.intro{padding-block:26px 6px;display:flex;flex-direction:column;gap:14px}
+.intro h1{font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-.03em}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.step{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--muted)}
+.step b{display:block;color:var(--ink);font-size:15px}
+.step .k{flex:none;font-family:var(--f-mono);font-size:13px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper)}
+
+.view{display:flex;flex-direction:column;gap:18px;padding-top:22px}
+.view > h2{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.sub{color:var(--muted);max-width:62ch}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.fld{display:flex;flex-direction:column;gap:5px;min-width:0}
+.fld label{font-size:13.5px;font-weight:600}
+.fld small{font-size:12.5px;color:var(--muted)}
+input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:15px}
+input[type=file]{font-size:14px;max-width:100%}
+textarea{min-height:90px;resize:vertical;line-height:1.5}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{all:unset;cursor:pointer;font-weight:600;font-size:15px;padding:10px 16px;border-radius:9px;background:var(--go);color:var(--go-ink);text-align:center}
+.btn.hl{background:var(--hl);color:var(--hl-ink)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.sm{font-size:13.5px;padding:6px 11px}
+.btn.danger{background:transparent;color:var(--warn);box-shadow:inset 0 0 0 1px var(--warn)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
+.msg{font-size:14px;color:var(--muted)}
+.msg.ok{color:var(--ok)} .msg.err{color:var(--warn)}
+.pill{font-size:12.5px;font-weight:600;padding:2px 10px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
+.pill.sent{color:var(--muted)}
+.pill.seen{color:var(--ink);border-color:var(--ink)}
+.pill.yes{background:var(--hl);color:var(--hl-ink);border-color:transparent}
+.pill.no{color:var(--warn);border-color:var(--warn)}
+details.tips{background:var(--soft);border-radius:10px;padding:10px 14px;font-size:14.5px}
+details.tips summary{cursor:pointer;font-weight:600}
+details.tips ul{margin:8px 0 2px;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+.empty{border:1.5px dashed var(--line);border-radius:var(--r);padding:28px 18px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:6px;align-items:center}
+.empty b{color:var(--ink)}
+
+.vac-h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.vac-h h3{font-size:21px;font-weight:800;letter-spacing:-.015em}
+.vac-h .meta{color:var(--muted);font-size:14.5px}
+.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.buscan{display:flex;flex-direction:column;gap:6px}
+.buscan ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:3px}
+.videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.vid{display:flex;flex-direction:column;gap:6px;min-width:0}
+.vid video{width:100%;aspect-ratio:16/9;max-width:100%;background:#000;border-radius:9px}
+.vid .t{font-size:14px;font-weight:600}
+.vlink{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:9px;padding:12px 14px;text-decoration:none;color:var(--ink);background:var(--paper);font-weight:600;font-size:14.5px}
+.vlink span:last-child{font-family:var(--f-mono);color:var(--go)}
+.vid .rm{align-self:flex-start}
+
+.app-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+.app-row:first-of-type{border-top:0;padding-top:0}
+.app-row .who{font-weight:700}
+.app-row .when{font-size:13px;color:var(--muted)}
+.reply{grid-column:1/-1;background:var(--soft);border-radius:9px;padding:10px 12px;font-size:14.5px}
+.hvbox{grid-column:1/-1;font-size:14px;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:12px;white-space:pre-wrap;word-break:break-word;font-family:var(--f-mono)}
+.actions{grid-column:1/-1;display:flex;flex-direction:column;gap:8px}
+.notice{background:var(--soft);border-radius:10px;padding:12px 14px;font-size:14.5px}
+.section-sep{display:flex;align-items:center;gap:10px;margin-top:6px}
+.section-sep h3{font-size:18px;font-weight:800}
+.score{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.score .big{font-family:var(--f-mono);font-size:44px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
+.score .big small{font-size:18px;color:var(--muted)}
+.bar{flex:1;min-width:160px;height:10px;background:var(--soft);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--hl);transition:width .4s}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.checks li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:start;padding:7px 0;border-top:1px solid var(--line);font-size:14.5px}
+.checks li:first-child{border-top:0}
+.checks .ic{font-family:var(--f-mono);font-weight:500;text-align:center}
+.checks .ic.y{color:var(--ok)} .checks .ic.n{color:var(--warn)}
+.checks .tip{display:block;color:var(--muted);font-size:13px}
+.checks .pts{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.checks input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--go)}
+.res{display:flex;flex-direction:column;gap:8px}
+.out{font-family:var(--f-mono);font-size:14px;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:12px 14px;white-space:pre-wrap;word-break:break-word;line-height:1.55}
+.out-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--f-mono);font-size:13px;padding:2px 9px;border-radius:6px;background:var(--hl);color:var(--hl-ink)}
+.stephead{display:flex;align-items:center;gap:10px;margin-top:6px}
+.stephead h3{font-size:18px;font-weight:800}
+.stephead .k{flex:none;font-family:var(--f-mono);font-size:13px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper)}
+details.sec{border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+details.sec summary{cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) 120px 34px;gap:12px;align-items:center;padding:11px 14px;font-weight:600;list-style:none}
+details.sec summary::-webkit-details-marker{display:none}
+details.sec summary .sn::before{content:"▸ ";color:var(--muted)}
+details.sec[open] summary .sn::before{content:"▾ "}
+.mini{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.mini i{display:block;height:100%;background:var(--hl)}
+.sv{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
+.secin{padding:0 14px 12px;display:flex;flex-direction:column;gap:6px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.tbl table{border-collapse:collapse;width:100%;font-size:14px}
+.tbl th,.tbl td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:center}
+.tbl th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--soft);font-weight:600}
+.tbl td.kw,.tbl th:first-child{text-align:left;font-family:var(--f-mono)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.hit{color:var(--ok);font-weight:600}
+.tbl td.no{color:var(--muted)}
+.tbl tr.miss td.kw{color:var(--warn)}
+.before{font-size:13.5px;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.chip.soft{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+@media (max-width:520px){details.sec summary{grid-template-columns:minmax(0,1fr) 60px 30px}}
+.expblock{border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--paper)}
+.paperwrap{overflow-x:auto;background:var(--soft);border-radius:10px;padding:16px}
+.paper{background:var(--paperw);color:var(--papink);max-width:680px;margin:0 auto;padding:36px 42px;box-shadow:0 1px 4px rgba(0,0,0,.18);font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:1.45;min-width:0}
+.paper .pn{font-size:24px;font-weight:700;line-height:1.15}
+.paper .pt{font-size:14px;margin-top:3px}
+.paper .pc{font-size:12px;color:var(--papmuted);margin-top:4px;word-break:break-word}
+.paper .ph{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--paprule);padding-bottom:3px;margin:16px 0 7px}
+.paper .pe{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:7px}
+.paper .pe span{color:var(--papmuted);font-size:12px}
+.paper .po{font-style:italic;color:var(--papmuted);font-size:12px}
+.paper .pu{margin:4px 0 0;padding-left:1.2em}
+.paper .pp{margin:3px 0}
+@media (max-width:520px){.paper{padding:22px 18px}}
+.seg{display:inline-flex;flex-wrap:wrap;align-self:flex-start;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
+.seg button{all:unset;cursor:pointer;padding:8px 14px;border-radius:8px;font-weight:600;font-size:14.5px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--sheet);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.seg button:focus-visible{outline:3px solid var(--go)}
+.modt{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:12px}
+.modt:first-child{margin-top:0}
+details.les{border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+details.les summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 14px}
+details.les summary::-webkit-details-marker{display:none}
+.lnum{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-size:12.5px;border:1px solid var(--line);background:var(--sheet)}
+.lnum.done{background:var(--hl);color:var(--hl-ink);border-color:transparent}
+.lt{font-weight:600}
+.lm{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.lbody{padding:2px 16px 16px 56px;display:flex;flex-direction:column;gap:10px;font-size:15px;max-width:76ch}
+.lbody ul,.lbody ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:4px}
+.lbody ul.tick{list-style:none;padding-left:0}
+.lbody ul.tick li::before{content:"✓  ";color:var(--ok);font-weight:700}
+.lbody .hz{background:var(--soft);border-radius:8px;padding:10px 12px}
+.lbody code{font-family:var(--f-mono);font-size:13px;background:var(--soft);padding:1px 5px;border-radius:4px}
+.lbody .btn{align-self:flex-start}
+.dato{background:var(--soft);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.dato .tag{align-self:flex-start;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--hl);color:var(--hl-ink);padding:1px 7px;border-radius:4px}
+.srcs{font-size:12.5px;color:var(--muted)}
+.tpl{border:1px solid var(--line);border-radius:9px;background:var(--sheet);overflow:hidden}
+.tpl-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 12px;background:var(--soft);font-weight:600;font-size:13.5px}
+.tpl pre{margin:0;padding:11px 13px;font-family:var(--f-mono);font-size:13.5px;white-space:pre-wrap;word-break:break-word;line-height:1.55}
+.cp{all:unset;cursor:pointer;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:6px;box-shadow:inset 0 0 0 1px var(--line);background:var(--sheet)}
+.cp:focus-visible{outline:2px solid var(--go)}
+.compare2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.compare2>div{border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:var(--sheet);display:flex;flex-direction:column;gap:4px;min-width:0}
+.compare2 .k{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.compare2 .k.bad{color:var(--warn)} .compare2 .k.good{color:var(--ok)}
+.carb{border:1.5px solid var(--ink);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;background:var(--sheet)}
+.donechk{display:flex;gap:8px;align-items:center;font-weight:600;cursor:pointer;margin-top:4px}
+.donechk input{width:18px;height:18px;accent-color:var(--go)}
+@media (max-width:600px){.lbody{padding-left:16px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="top"><div class="wrap">
+  <div class="brand">Trabajo Ya</div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="hv" aria-selected="true"><span class="n">1</span>Mi hoja de vida</button>
+    <button class="tab" role="tab" data-tab="emp" aria-selected="false"><span class="n">2</span>Empresas</button>
+    <button class="tab" role="tab" data-tab="mis" aria-selected="false"><span class="n">3</span>Mis postulaciones <span class="badge" id="misBadge" hidden></span></button>
+    <button class="tab" role="tab" data-tab="li" aria-selected="false">LinkedIn</button>
+    <button class="tab" role="tab" data-tab="panel" aria-selected="false" id="panelTab" hidden>Panel</button>
+  </div>
+</div></div>
+
+<div class="wrap">
+<header class="intro">
+  <h1>Mira qué buscan las empresas y <mark>aplica con un clic</mark></h1>
+  <div class="steps">
+    <div class="step"><span class="k">1</span><div><b>Llena tu hoja de vida</b>Una sola vez. Sirve para todas tus postulaciones.</div></div>
+    <div class="step"><span class="k">2</span><div><b>Mira las entrevistas</b>Reclutadores cuentan qué buscan y cómo eligen.</div></div>
+    <div class="step"><span class="k">3</span><div><b>Aplica y espera respuesta</b>Tu hoja de vida llega a la empresa. Si le interesas, te escribe aquí.</div></div>
+  </div>
+  <p class="notice" id="globalNote" hidden></p>
+</header>
+
+<!-- 1 · Hoja de vida -->
+<section class="view" id="v-hv">
+  <h2>Mi hoja de vida</h2>
+  <p class="sub">Escribe tu información como te salga. Te damos un puntaje, la IA la convierte en una hoja de vida profesional y la descargas en PDF. Es también la que se envía cuando aplicas a una empresa.</p>
+
+  <form class="card" id="hvForm" autocomplete="on">
+    <div class="stephead"><span class="k">1</span><h3>Tus datos</h3></div>
+    <div class="grid2">
+      <div class="fld"><label for="h-nombre">Nombre completo *</label><input type="text" id="h-nombre" name="nombre" autocomplete="name"></div>
+      <div class="fld"><label for="h-cargo">Cargo que buscas</label><input type="text" id="h-cargo" name="cargo" placeholder="Practicante de comercio exterior"></div>
+      <div class="fld"><label for="h-correo">Correo *</label><input type="email" id="h-correo" name="correo" autocomplete="email" placeholder="nombre.apellido@gmail.com"></div>
+      <div class="fld"><label for="h-cel">Celular</label><input type="tel" id="h-cel" name="celular" autocomplete="tel" placeholder="300 123 4567"></div>
+      <div class="fld"><label for="h-ciudad">Ciudad</label><input type="text" id="h-ciudad" name="ciudad" placeholder="Medellín"></div>
+      <div class="fld"><label for="h-li">LinkedIn</label><input type="url" id="h-li" name="linkedin" placeholder="https://www.linkedin.com/in/tu-nombre"></div>
+    </div>
+
+    <div class="stephead"><span class="k">2</span><h3>Educación</h3></div>
+    <div class="grid2">
+      <div class="fld"><label for="h-carrera">Carrera *</label><input type="text" id="h-carrera" name="carrera" placeholder="Negocios Internacionales"></div>
+      <div class="fld"><label for="h-uni">Universidad</label><input type="text" id="h-uni" name="universidad" placeholder="Universidad EAFIT"></div>
+      <div class="fld"><label for="h-etapa">Fechas o semestre</label><input type="text" id="h-etapa" name="etapa" placeholder="2023 – 2027 · octavo semestre"></div>
+      <div class="fld"><label for="h-edulog">Logros académicos (opcional)</label><input type="text" id="h-edulog" name="edulogros" placeholder="Promedio 4,3 · beca de excelencia · semillero de investigación"></div>
+    </div>
+
+    <div class="stephead"><span class="k">3</span><h3>Experiencia y proyectos</h3></div>
+    <p class="msg">Prácticas, trabajos, emprendimientos, monitorías, voluntariados y proyectos de clase cuentan. Escribe lo que hiciste como te salga; la IA lo convierte en logros.</p>
+    <div id="expList" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div class="row"><button class="btn ghost sm" type="button" id="expAdd">Agregar experiencia o proyecto</button></div>
+
+    <div class="stephead"><span class="k">4</span><h3>Habilidades</h3></div>
+    <div class="grid2">
+      <div class="fld"><label for="h-hab">Herramientas y habilidades (separadas por coma)</label><textarea id="h-hab" name="habilidades" placeholder="Excel avanzado, Power BI, SAP, Incoterms, negociación con proveedores"></textarea></div>
+      <div class="fld"><label for="h-idi">Idiomas con nivel</label><textarea id="h-idi" name="idiomas" placeholder="Español nativo, inglés B2, portugués intermedio"></textarea></div>
+    </div>
+    <div class="fld"><label for="h-cur">Cursos y certificaciones</label><input type="text" id="h-cur" name="cursos" placeholder="Google Data Analytics (Coursera, 2025) · Excel avanzado (SENA, 2024)"></div>
+
+    <div class="stephead"><span class="k">5</span><h3>Perfil</h3></div>
+    <div class="fld"><label for="h-perfil">Perfil en 2 o 3 líneas</label><textarea id="h-perfil" name="perfil" placeholder="Si lo dejas vacío, la IA lo escribe por ti con tu información."></textarea><small id="h-perfc">0 palabras</small></div>
+
+    <div class="row"><button class="btn" type="submit" id="hvSave">Guardar hoja de vida</button><span class="msg" id="hvMsg" aria-live="polite"></span></div>
+  </form>
+
+  <div class="card">
+    <div class="score"><span class="big" id="hvScore">0<small> / 100</small></span><div style="flex:1;min-width:160px;display:flex;flex-direction:column;gap:6px"><div class="bar"><i id="hvBar"></i></div><span class="msg" id="hvLevel"></span></div></div>
+    <div id="hvSections" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-size:18px;font-weight:800">Mejorar con IA</h3>
+    <p class="msg">Convierte lo que escribiste en logros con verbo y cifra (la fórmula de Google), escribe tu perfil y ordena tus habilidades para el cargo que buscas. No inventa nada: donde falte una cifra verás [agrega cifra].</p>
+    <details class="tips"><summary>Adaptar a una vacante (opcional)</summary>
+      <div class="fld" style="margin-top:10px"><label for="h-jd">Pega el aviso de la vacante</label><textarea id="h-jd" placeholder="Requisitos y funciones del cargo al que vas a aplicar."></textarea><small>La IA prioriza las palabras del aviso que sean verdad para ti, para pasar el filtro automático.</small></div>
+    </details>
+    <div class="row"><button class="btn hl" type="button" id="hvGo">Mejorar mi hoja de vida</button><button class="btn ghost sm" type="button" id="hvStop" hidden>Detener</button><span class="msg" id="hvAiMsg" aria-live="polite"></span></div>
+    <div class="res" id="hvRes"></div>
+  </div>
+
+  <div class="card">
+    <div class="vac-h"><h3 style="font-size:18px;font-weight:800">Así queda tu hoja de vida</h3><div class="row"><button class="btn" type="button" id="hvPdf">Descargar PDF</button></div></div>
+    <p class="msg" id="hvPdfMsg" aria-live="polite">Formato de una columna, fácil de leer para reclutadores y para los filtros automáticos (ATS).</p>
+    <div class="paperwrap"><div class="paper" id="hvPaper"></div></div>
+  </div>
+</section>
+
+<!-- 2 · Empresas -->
+<section class="view" id="v-emp" hidden>
+  <h2>Empresas</h2>
+  <p class="sub">Mira las entrevistas antes de aplicar: ahí los reclutadores cuentan qué buscan y cómo eligen. Usa esas palabras en tu hoja de vida.</p>
+  <div id="vacList" style="display:flex;flex-direction:column;gap:16px"></div>
+</section>
+
+<!-- 3 · Mis postulaciones -->
+<section class="view" id="v-mis" hidden>
+  <h2>Mis postulaciones</h2>
+  <p class="sub">Cuando una empresa revisa tu hoja de vida, el estado cambia aquí. Si le interesas, verás su mensaje.</p>
+  <div class="card" id="misList"></div>
+</section>
+
+<!-- Optimizar LinkedIn -->
+<section class="view" id="v-li" hidden>
+  <h2>LinkedIn</h2>
+  <p class="sub">Aprende paso a paso a tener un perfil que los reclutadores encuentran y usa el optimizador con IA para hacerlo más rápido.</p>
+  <div class="seg" role="group" aria-label="Secciones de LinkedIn"><button type="button" data-sub="ruta" aria-pressed="true">Ruta en 18 pasos</button><button type="button" data-sub="opt" aria-pressed="false">Optimizador con IA</button></div>
+
+  <div id="li-ruta" style="display:flex;flex-direction:column;gap:14px">
+    <div class="card">
+      <div class="score"><span class="big" id="rutaTxt" style="font-size:26px">0 de 18 pasos</span><div class="bar"><i id="rutaBar"></i></div></div>
+      <p class="msg">Cinco módulos, unas 2 horas en total. Cada paso explica qué hacer, por qué funciona y termina con una acción en tu perfil. Abre un paso para empezar.</p>
+    </div>
+    <div class="card" id="rutaList" style="gap:8px"></div>
+  </div>
+
+  <div id="li-opt" hidden style="display:flex;flex-direction:column;gap:18px">
+  <p class="sub">Te calificamos sección por sección, te mostramos con qué palabras te encontraría un reclutador y reescribimos tu perfil con IA, pensando en las vacantes a las que apuntas.</p>
+
+  <form class="card" id="liForm" autocomplete="off">
+    <div class="stephead"><span class="k">1</span><h3>Tu perfil hoy</h3></div>
+    <div class="grid2">
+      <div class="fld"><label for="li-cargo">Cargo que buscas *</label><input type="text" id="li-cargo" name="cargo" placeholder="Analista de comercio exterior"></div>
+      <div class="fld"><label for="li-ciudad">Ciudad que aparece en tu perfil</label><input type="text" id="li-ciudad" name="ciudad" placeholder="Medellín, Antioquia"></div>
+    </div>
+    <div class="fld"><label for="li-tit">Titular</label><input type="text" id="li-tit" name="titular" placeholder="Estudiante en Universidad EAFIT"><small id="li-titc">0 / 220 caracteres</small></div>
+    <div class="fld"><label for="li-ace">Acerca de</label><textarea id="li-ace" name="acerca" style="min-height:120px" placeholder="Copia el texto de tu sección Acerca de. Si no tienes, déjalo vacío."></textarea><small id="li-acec">0 palabras</small></div>
+    <div class="fld"><label for="li-exp">Experiencia</label><textarea id="li-exp" name="experiencia" style="min-height:130px" placeholder="Un cargo o proyecto por bloque, con fechas, y una línea por logro.&#10;Practicante de compras · Empresa X · Ene 2026 – actual&#10;Negocié con 12 proveedores y bajé 8 % el costo de empaques."></textarea></div>
+    <div class="grid2">
+      <div class="fld"><label for="li-hab">Habilidades (separadas por coma)</label><textarea id="li-hab" name="habilidades" placeholder="Excel, Power BI, Incoterms, negociación, inglés"></textarea></div>
+      <div class="fld"><label for="li-edu">Educación</label><textarea id="li-edu" name="educacion" placeholder="Negocios Internacionales, Universidad EAFIT, 2027"></textarea></div>
+    </div>
+    <div class="fld" style="max-width:280px"><label for="li-con">Número de conexiones</label><select id="li-con" name="conexiones"><option value="">Selecciona</option><option value="0">Menos de 50</option><option value="1">50 a 149</option><option value="2">150 a 499</option><option value="3">500 o más</option></select></div>
+    <div class="row"><button class="btn ghost sm" type="button" id="liFromHv">Traer datos de mi hoja de vida</button><span class="msg" id="liFromMsg"></span></div>
+
+    <div class="stephead"><span class="k">2</span><h3>Vacantes a las que apuntas</h3></div>
+    <p class="msg">Pega de 1 a 3 avisos reales del cargo que buscas. Así comparamos tu perfil con las palabras que usan los reclutadores, como hace Jobscan.</p>
+    <div class="fld"><label for="li-jd1">Vacante 1</label><textarea id="li-jd1" name="jd1" placeholder="Pega aquí el texto completo del aviso: requisitos y funciones."></textarea></div>
+    <details class="tips"><summary>Agregar vacante 2 y 3</summary>
+      <div class="fld" style="margin-top:10px"><label for="li-jd2">Vacante 2</label><textarea id="li-jd2" name="jd2"></textarea></div>
+      <div class="fld" style="margin-top:10px"><label for="li-jd3">Vacante 3</label><textarea id="li-jd3" name="jd3"></textarea></div>
+    </details>
+
+    <div class="stephead"><span class="k">3</span><h3>Lo que no podemos ver</h3></div>
+    <ul class="checks" id="liManualList"></ul>
+  </form>
+
+  <div class="card">
+    <div class="score"><span class="big" id="liScore">0<small> / 100</small></span><div style="flex:1;min-width:160px;display:flex;flex-direction:column;gap:6px"><div class="bar"><i id="liBar"></i></div><span class="msg" id="liLevel"></span></div></div>
+    <div id="liSections" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-size:18px;font-weight:800">Así te encuentra un reclutador</h3>
+    <p class="msg">Los reclutadores buscan en LinkedIn con palabras clave. Estas son las que más se repiten en tus vacantes y dónde aparecen en tu perfil. El titular es lo que más pesa; las filas en blanco son palabras que hoy no te hacen aparecer.</p>
+    <div id="liMatrix"></div>
+  </div>
+
+  <div class="card">
+    <h3 style="font-size:18px;font-weight:800">Reescritura con IA</h3>
+    <p class="msg">Escribimos 3 titulares con fórmulas distintas, tu "Acerca de", tus logros reescritos uno por uno, las habilidades que te faltan, la frase para tu banner e ideas para publicar. Solo usamos lo que escribiste: donde falte una cifra verás [agrega cifra].</p>
+    <div class="row"><button class="btn hl" type="button" id="liGo">Optimizar mi perfil</button><button class="btn ghost sm" type="button" id="liStop" hidden>Detener</button><span class="msg" id="liMsg" aria-live="polite"></span></div>
+    <div class="res" id="liRes"></div>
+  </div>
+
+  <div class="card" id="liPhotoCard" hidden>
+    <h3 style="font-size:18px;font-weight:800">Revisa tu foto de perfil</h3>
+    <p class="msg">Sube la foto que usas o piensas usar. La IA revisa encuadre, luz, fondo, nitidez y vestimenta, y te dice qué cambiar. No evalúa tu apariencia.</p>
+    <div class="row" style="align-items:flex-start"><img id="liPhotoPrev" alt="Vista previa de tu foto" hidden style="width:96px;height:96px;object-fit:cover;border-radius:50%;border:1px solid var(--line)"><div class="fld" style="flex:1;min-width:200px"><label for="liPhoto">Foto (JPG, PNG o WebP)</label><input type="file" id="liPhoto" accept="image/jpeg,image/png,image/webp"></div></div>
+    <div class="row"><button class="btn" type="button" id="liPhotoGo" disabled>Revisar mi foto</button><span class="msg" id="liPhotoMsg" aria-live="polite"></span></div>
+    <div class="res" id="liPhotoRes"></div>
+  </div>
+
+  <p class="msg" style="font-size:12.5px">Criterios basados en lo que revisan <a href="https://www.jobscan.co/linkedin-optimization-guide" target="_blank" rel="noopener">Jobscan</a>, Resume Worded y Hiration, y en los datos que publicó <a href="https://blog.linkedin.com/2016/08/03/5-steps-to-improve-your-linkedin-profile-in-minutes-" target="_blank" rel="noopener">LinkedIn</a> sobre foto, habilidades, ubicación y resumen.</p>
+  </div>
+</section>
+
+<!-- Panel -->
+<section class="view" id="v-panel" hidden>
+  <h2>Panel de Trabajo Ya</h2>
+  <p class="sub">Solo lo ven los editores. Crea vacantes, sube las entrevistas y responde a quienes aplican.</p>
+
+  <form class="card" id="vacForm">
+    <h3 style="font-size:18px;font-weight:800">Nueva empresa y cargo</h3>
+    <div class="grid2">
+      <div class="fld"><label for="n-emp">Empresa *</label><input type="text" id="n-emp" required></div>
+      <div class="fld"><label for="n-pue">Cargo *</label><input type="text" id="n-pue" placeholder="Practicante de comercio exterior" required></div>
+      <div class="fld"><label for="n-ciu">Ciudad y modalidad</label><input type="text" id="n-ciu" placeholder="Medellín · híbrido"></div>
+    </div>
+    <div class="fld"><label for="n-bus">Qué buscan (una idea por línea)</label><textarea id="n-bus" placeholder="Excel intermedio&#10;Inglés para hablar con proveedores&#10;Que haya liderado un proyecto, aunque sea de la universidad"></textarea><small>Sale de la entrevista con el reclutador. Es lo primero que lee el candidato.</small></div>
+    <div class="fld"><label for="n-des">Descripción del cargo</label><textarea id="n-des"></textarea></div>
+    <div class="row"><button class="btn" type="submit">Publicar</button><span class="msg" id="vacMsg" aria-live="polite"></span></div>
+  </form>
+
+  <div class="section-sep"><h3>Vacantes publicadas y sus videos</h3></div>
+  <div id="panVac" style="display:flex;flex-direction:column;gap:14px"></div>
+
+  <div class="section-sep"><h3>Postulaciones recibidas</h3></div>
+  <div id="panApps" style="display:flex;flex-direction:column;gap:14px"></div>
+</section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  function el(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==='text')e.textContent=attrs[k];else if(k==='cls')e.className=attrs[k];else if(k.indexOf('on')===0)e.addEventListener(k.slice(2),attrs[k]);else e.setAttribute(k,attrs[k])}(kids||[]).forEach(function(c){if(c)e.appendChild(typeof c==='string'?document.createTextNode(c):c)});return e}
+  function LS(k,v){try{if(v===undefined){var x=localStorage.getItem('ty:'+k);return x?JSON.parse(x):null}localStorage.setItem('ty:'+k,JSON.stringify(v))}catch(e){return null}}
+  function fecha(iso){try{return new Date(iso).toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'})}catch(e){return ''}}
+
+  var db=null,user=null,assets=null,uid=null,isEditor=false,canWrite=null;
+  var vacs=[], mine={apps:{}}, allApps=[];
+  var ESTADOS={'Enviada':'sent','Vista':'seen','Le interesas':'yes','No continúa':'no'};
+
+  /* Pestañas */
+  function show(t){
+    $$('.tab').forEach(function(b){b.setAttribute('aria-selected',b.dataset.tab===t?'true':'false')});
+    ['hv','emp','mis','li','panel'].forEach(function(v){$('#v-'+v).hidden=(v!==t)});
+    LS('tab',t);
+  }
+  $$('.tab').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.tab)})});
+
+  function note(t){var n=$('#globalNote');n.textContent=t;n.hidden=!t}
+
+  /* Hoja de vida */
+  var FIELDS=['nombre','cargo','correo','celular','ciudad','linkedin','carrera','universidad','etapa','edulogros','habilidades','idiomas','cursos','perfil'];
+  var expState=[{cargo:'',org:'',lugar:'',fechas:'',desc:''}];
+  function expText(list){return list.filter(function(e){return e.cargo||e.desc}).map(function(e){return [[e.cargo,e.org,e.lugar,e.fechas].filter(Boolean).join(' · '),e.desc].filter(Boolean).join('\n')}).join('\n\n')}
+  function readHv(){
+    var f=$('#hvForm'),o={};FIELDS.forEach(function(k){o[k]=(f.elements[k].value||'').trim()});
+    o.exp=expState.map(function(e){return {cargo:(e.cargo||'').trim(),org:(e.org||'').trim(),lugar:(e.lugar||'').trim(),fechas:(e.fechas||'').trim(),desc:(e.desc||'').trim()}}).filter(function(e){return e.cargo||e.org||e.desc});
+    o.experiencia=expText(o.exp);
+    return o;
+  }
+  function fillHv(o){
+    if(!o) return; var f=$('#hvForm');
+    FIELDS.forEach(function(k){if(o[k]!=null&&f.elements[k])f.elements[k].value=o[k]});
+    if(Array.isArray(o.exp)&&o.exp.length) expState=o.exp.map(function(e){return {cargo:e.cargo||'',org:e.org||'',lugar:e.lugar||'',fechas:e.fechas||'',desc:e.desc||''}});
+    else if(o.experiencia) expState=[{cargo:'',org:'',lugar:'',fechas:'',desc:o.experiencia}];
+    renderExp();
+  }
+  function hvOk(o){return o.nombre&&o.correo&&o.carrera&&(o.perfil||o.exp.length)}
+  function renderExp(){
+    var box=$('#expList');box.innerHTML='';
+    expState.forEach(function(e,i){
+      function inp(k,label,ph){var id='exp-'+k+'-'+i, x=el('input',{type:'text',id:id,placeholder:ph});x.value=e[k]||'';x.addEventListener('input',function(){expState[i][k]=x.value;onHvChange()});return el('div',{cls:'fld'},[el('label',{'for':id,text:label}),x])}
+      var tid='exp-desc-'+i, ta=el('textarea',{id:tid,placeholder:'Qué hiciste y qué lograste, una cosa por línea. Ejemplo:\nmanejaba las redes del negocio, pasamos de 800 a 2.000 seguidores\natendía clientes por WhatsApp y hacía los pedidos'});ta.value=e.desc||'';
+      ta.addEventListener('input',function(){expState[i].desc=ta.value;onHvChange()});
+      var rm=el('button',{cls:'btn danger sm',type:'button',text:'Quitar'});
+      rm.addEventListener('click',function(){expState.splice(i,1);if(!expState.length)expState.push({cargo:'',org:'',lugar:'',fechas:'',desc:''});renderExp();onHvChange()});
+      box.appendChild(el('div',{cls:'expblock'},[
+        el('div',{cls:'vac-h'},[el('span',{cls:'label',text:'Experiencia '+(i+1)}),expState.length>1?rm:null]),
+        el('div',{cls:'grid2'},[inp('cargo','Cargo o rol','Practicante de compras'),inp('org','Empresa, proyecto u organización','Arepas El Campesino'),inp('lugar','Ciudad','Medellín'),inp('fechas','Fechas','Ene 2025 – actual')]),
+        el('div',{cls:'fld'},[el('label',{'for':tid,text:'Qué hiciste y qué lograste'}),ta])
+      ]));
+    });
+    $('#expAdd').hidden=expState.length>=6;
+  }
+  $('#expAdd').addEventListener('click',function(){expState.push({cargo:'',org:'',lugar:'',fechas:'',desc:''});renderExp();onHvChange()});
+  var draft=LS('hv'); if(draft) fillHv(draft); else renderExp();
+  var hvTimer=null;
+  function onHvChange(){LS('hv',readHv());clearTimeout(hvTimer);hvTimer=setTimeout(function(){renderHvAll()},150)}
+  $('#hvForm').addEventListener('input',function(e){if(e.target&&e.target.closest('#expList'))return;onHvChange()});
+  $('#hvForm').addEventListener('submit',async function(e){
+    e.preventDefault(); var o=readHv(), m=$('#hvMsg');
+    if(!hvOk(o)){m.className='msg err';m.textContent='Completa nombre, correo, carrera y al menos tu perfil o una experiencia.';return}
+    LS('hv',o);
+    if(!db||!uid){m.className='msg ok';m.textContent='Guardada en este navegador.';renderVacs();return}
+    try{await db.doc('data/users/'+uid+'/hv').set(Object.assign({},o,{actualizado:new Date().toISOString()}));
+      m.className='msg ok';m.textContent='Guardada. Ya puedes aplicar en Empresas.';renderVacs();}
+    catch(err){m.className='msg err';m.textContent='No se pudo guardar en tu cuenta. Quedó guardada en este navegador.'}
+  });
+
+  /* Puntaje de la hoja de vida */
+  function bulletsOf(o){var b=[];o.exp.forEach(function(e){String(e.desc||'').split(/\n+/).forEach(function(l){l=l.replace(/^[\s•\-\*·]+/,'').trim();if(l.length>8)b.push(l)})});return b}
+  function analyzeHv(o){
+    var nameT=toks(o.nombre).filter(function(w){return w.length>=3}), local=norm(o.correo.split('@')[0]||'');
+    var b=bulletsOf(o), numR=b.length?b.filter(function(l){return /\d/.test(l)}).length/b.length:0, verbR=b.length?b.filter(verbStart).length/b.length:0;
+    var pw=words(o.perfil), cargoW=toks(o.cargo).filter(function(w){return w.length>3&&STOP.indexOf(w)<0});
+    var skills=o.habilidades.split(/[,;\n·|]+/).map(function(s){return s.trim()}).filter(Boolean);
+    var size=[o.perfil,o.experiencia,o.habilidades,o.idiomas,o.cursos,o.edulogros].join(' ').length;
+    var S=[
+      {n:'Datos de contacto',i:[
+        [!!o.nombre,15,'Nombre completo','Es lo primero que lee el reclutador.'],
+        [/^\S+@\S+\.\S+$/.test(o.correo)&&nameT.some(function(w){return local.indexOf(w)>-1}),25,'Correo profesional, con tu nombre','Usa algo como nombre.apellido@gmail.com; evita apodos.'],
+        [o.celular.replace(/\D/g,'').length>=10,20,'Celular de 10 dígitos','En Colombia casi todos los reclutadores llaman o escriben por WhatsApp.'],
+        [!!o.ciudad,15,'Ciudad','Basta con la ciudad; no pongas dirección, cédula, edad ni estado civil.'],
+        [/linkedin\.com\/in\//i.test(o.linkedin),15,'Enlace a LinkedIn personalizado','El reclutador casi siempre lo revisa.'],
+        [!!o.cargo,10,'Cargo que buscas definido','Así la IA adapta tu hoja de vida a ese cargo.']
+      ]},
+      {n:'Perfil',i:[
+        [!!o.perfil,30,'Tienes un perfil','Si lo dejas vacío, la IA lo escribe con tu información.'],
+        [pw>=25&&pw<=80,25,'Entre 2 y 3 líneas (25 a 80 palabras)','Hoy tiene '+pw+' palabras.'],
+        [!!o.perfil&&(cargoW.length?cargoW.some(function(w){return norm(o.perfil).indexOf(w)>-1}):true),20,'Menciona el cargo o el área que buscas','El reclutador debe entender en 5 segundos para qué sirves.'],
+        [/\d/.test(o.perfil),15,'Incluye un logro con cifra','Una cifra vale más que tres adjetivos.'],
+        [!!o.perfil&&!BUZZ.test(o.perfil),10,'Sin adjetivos vacíos','Evita "proactivo", "apasionado", "trabajo en equipo" sin prueba.']
+      ]},
+      {n:'Experiencia y proyectos',i:[
+        [o.exp.length>=2,15,'Al menos 2 experiencias o proyectos','Cuentan prácticas, monitorías, emprendimientos y proyectos de clase.'],
+        [o.exp.length>0&&o.exp.every(function(e){return e.fechas}),15,'Todas tienen fechas','Los reclutadores leen primero cargos y fechas.'],
+        [numR>=0.5,30,'La mitad o más de tus logros tienen cifras (hoy: '+Math.round(numR*100)+' %)','Cantidades, porcentajes, plazos o comparaciones.'],
+        [verbR>=0.5,20,'Empiezas con verbos de acción','Aumenté, lideré, reduje, diseñé, negocié…'],
+        [b.length>0&&!b.some(function(l){return WEAK.test(l)}),20,'Sin "Responsable de" ni "Encargado de"','Cuenta lo que lograste, no tus funciones.']
+      ]},
+      {n:'Educación',i:[
+        [!!o.carrera,30,'Carrera','Escríbela con el nombre oficial.'],
+        [!!o.universidad,30,'Universidad',''],
+        [!!o.etapa,25,'Fechas o semestre','Si no te has graduado, pon la fecha esperada de grado.'],
+        [!!(o.edulogros||o.cursos),15,'Logros académicos o cursos','Promedio alto, becas, semilleros o certificaciones suman.']
+      ]},
+      {n:'Habilidades y formato',i:[
+        [skills.length>=5,35,'Al menos 5 herramientas o habilidades','Usa las palabras que aparecen en las vacantes.'],
+        [/(a1|a2|b1|b2|c1|c2|basico|intermedio|avanzado|nativo|fluido)/.test(norm(o.idiomas)),30,'Idiomas con nivel','Ejemplo: inglés B2. No exageres: lo pueden evaluar en la entrevista.'],
+        [!!o.cursos,15,'Cursos o certificaciones','Muestran que aprendes por tu cuenta.'],
+        [size>0&&size<3200,20,'Cabe en una página','Para estudiantes y recién egresados, una página es lo ideal.']
+      ]}
+    ];
+    S.forEach(function(s){s.score=s.i.reduce(function(a,x){return a+(x[0]?x[1]:0)},0)});
+    return {S:S,total:Math.round(S.reduce(function(a,s){return a+s.score},0)/S.length)};
+  }
+  function renderSections(box,S){
+    var openSec={};$$('details',box).forEach(function(x){if(x.open)openSec[x.dataset.n]=1});box.innerHTML='';
+    S.forEach(function(s){
+      var good=s.i.filter(function(x){return x[0]}), bad=s.i.filter(function(x){return !x[0]});
+      var d=el('details',{cls:'sec','data-n':s.n});if(openSec[s.n])d.open=true;
+      d.appendChild(el('summary',null,[el('span',{cls:'sn',text:s.n}),el('span',{cls:'mini'},[el('i',{style:'width:'+s.score+'%'})]),el('span',{cls:'sv',text:String(s.score)})]));
+      var inner=el('div',{cls:'secin'});
+      if(bad.length){inner.appendChild(el('span',{cls:'label',text:'Por mejorar'}));var ub=el('ul',{cls:'checks'});bad.forEach(function(x){ub.appendChild(el('li',null,[el('span',{cls:'ic n',text:'✗'}),el('span',null,[x[2],el('span',{cls:'tip',text:x[3]})]),el('span',{cls:'pts',text:'+'+x[1]})]))});inner.appendChild(ub)}
+      if(good.length){inner.appendChild(el('span',{cls:'label',text:'Bien hecho'}));var ug=el('ul',{cls:'checks'});good.forEach(function(x){ug.appendChild(el('li',null,[el('span',{cls:'ic y',text:'✓'}),el('span',{text:x[2]}),el('span',{cls:'pts',text:String(x[1])})]))});inner.appendChild(ug)}
+      d.appendChild(inner);box.appendChild(d);
+    });
+  }
+  function renderHvScore(){
+    var o=readHv(), A=analyzeHv(o);
+    $('#h-perfc').textContent=words(o.perfil)+' palabras';
+    $('#hvScore').firstChild.nodeValue=String(A.total);
+    $('#hvBar').style.width=A.total+'%';
+    $('#hvLevel').textContent=A.total>=80?'Excelente: lista para enviar.':A.total>=50?'Bien encaminada: corrige lo que está en rojo o usa la IA.':'Por mejorar: completa tus datos y usa la IA para convertir tu experiencia en logros.';
+    renderSections($('#hvSections'),A.S);
+  }
+
+  /* Vista previa */
+  function lines(t){return String(t||'').split(/\n+/).map(function(l){return l.replace(/^[\s•\-\*·]+/,'').trim()}).filter(Boolean)}
+  function renderPaper(){
+    var o=readHv(), p=$('#hvPaper');p.innerHTML='';
+    p.appendChild(el('div',{cls:'pn',text:o.nombre||'Tu nombre'}));
+    if(o.cargo) p.appendChild(el('div',{cls:'pt',text:o.cargo}));
+    var contact=[o.ciudad,o.celular,o.correo,o.linkedin.replace(/^https?:\/\/(www\.)?/,'')].filter(Boolean).join('  ·  ');
+    if(contact) p.appendChild(el('div',{cls:'pc',text:contact}));
+    function sec(t){p.appendChild(el('div',{cls:'ph',text:t}))}
+    if(o.perfil){sec('Perfil');p.appendChild(el('p',{cls:'pp',text:o.perfil}))}
+    if(o.exp.length){sec('Experiencia y proyectos');o.exp.forEach(function(e){
+      p.appendChild(el('div',{cls:'pe'},[el('b',{text:e.cargo||e.org||'Experiencia'}),el('span',{text:e.fechas})]));
+      var sub=[e.cargo?e.org:'',e.lugar].filter(Boolean).join(' · '); if(sub) p.appendChild(el('div',{cls:'po',text:sub}));
+      var ls=lines(e.desc); if(ls.length) p.appendChild(el('ul',{cls:'pu'},ls.map(function(l){return el('li',{text:l})})));
+    })}
+    if(o.carrera||o.universidad){sec('Educación');
+      p.appendChild(el('div',{cls:'pe'},[el('b',{text:o.carrera||''}),el('span',{text:o.etapa})]));
+      if(o.universidad) p.appendChild(el('div',{cls:'po',text:o.universidad}));
+      if(o.edulogros) p.appendChild(el('p',{cls:'pp',text:o.edulogros}));
+    }
+    if(o.cursos){sec('Cursos y certificaciones');p.appendChild(el('p',{cls:'pp',text:o.cursos}))}
+    if(o.habilidades||o.idiomas){sec('Habilidades e idiomas');
+      if(o.habilidades) p.appendChild(el('p',{cls:'pp'},[el('b',{text:'Herramientas y habilidades: '}),o.habilidades]));
+      if(o.idiomas) p.appendChild(el('p',{cls:'pp'},[el('b',{text:'Idiomas: '}),o.idiomas]));
+    }
+  }
+  function renderHvAll(){renderHvScore();renderPaper()}
+
+  /* PDF */
+  function pdfSafe(t){return String(t||'').replace(/[–—]/g,'-').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/…/g,'...').replace(/[•·]/g,'·').replace(/[^\x00-\xFF]/g,'')}
+  function buildPdf(o){
+    var J=window.jspdf&&window.jspdf.jsPDF; if(!J) throw {code:'nolib'};
+    var doc=new J({unit:'pt',format:'letter'}), W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight(), M=50, X2=W-M, y=M, CW=W-2*M;
+    var INK=[24,32,46], MUTED=[90,98,115], RULE=[200,206,214];
+    function need(h){if(y+h>H-M){doc.addPage();y=M}}
+    function para(t,size,style,color,indent){
+      doc.setFont('helvetica',style||'normal');doc.setFontSize(size);doc.setTextColor.apply(doc,color||INK);
+      var ls=doc.splitTextToSize(pdfSafe(t),CW-(indent||0)), lh=size*1.32;
+      ls.forEach(function(l){need(lh);doc.text(l,M+(indent||0),y+size);y+=lh});
+    }
+    function heading(t){
+      y+=10;need(26);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor.apply(doc,INK);
+      doc.text(pdfSafe(t.toUpperCase()),M,y+10,{charSpace:0.8});y+=15;doc.setDrawColor.apply(doc,RULE);doc.setLineWidth(0.7);doc.line(M,y,X2,y);y+=7;
+    }
+    function rowLR(left,right){
+      need(16);doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.setTextColor.apply(doc,INK);
+      var rw=0;if(right){doc.setFont('helvetica','normal');doc.setFontSize(9.5);rw=doc.getTextWidth(pdfSafe(right))+12;doc.setTextColor.apply(doc,MUTED);doc.text(pdfSafe(right),X2,y+10.5,{align:'right'})}
+      doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.setTextColor.apply(doc,INK);
+      var ls=doc.splitTextToSize(pdfSafe(left),CW-rw);ls.forEach(function(l,i){need(14);doc.text(l,M,y+10.5);y+=14});
+    }
+    function bullets(list){
+      doc.setFont('helvetica','normal');doc.setFontSize(10);
+      list.forEach(function(t){
+        var ls=doc.splitTextToSize(pdfSafe(t),CW-14);
+        ls.forEach(function(l,i){need(13.5);if(i===0){doc.setFillColor.apply(doc,INK);doc.circle(M+4,y+6.6,1.3,'F')}doc.setTextColor.apply(doc,INK);doc.text(l,M+14,y+10);y+=13.5});
+        y+=1.5;
+      });
+    }
+    // Encabezado
+    doc.setFont('helvetica','bold');doc.setFontSize(21);doc.setTextColor.apply(doc,INK);doc.text(pdfSafe(o.nombre||''),M,y+20);y+=28;
+    if(o.cargo){para(o.cargo,11.5,'normal',INK);y+=1}
+    var contact=[o.ciudad,o.celular,o.correo,o.linkedin.replace(/^https?:\/\/(www\.)?/,'')].filter(Boolean).join('   |   ');
+    if(contact) para(contact,9.5,'normal',MUTED);
+    if(o.perfil){heading('Perfil');para(o.perfil,10,'normal',INK)}
+    if(o.exp.length){heading('Experiencia y proyectos');o.exp.forEach(function(e,i){
+      if(i) y+=6;
+      rowLR(e.cargo||e.org||'Experiencia',e.fechas);
+      var sub=[e.cargo?e.org:'',e.lugar].filter(Boolean).join(' · ');if(sub)para(sub,9.5,'italic',MUTED);
+      var ls=lines(e.desc);if(ls.length){y+=2;bullets(ls)}
+    })}
+    if(o.carrera||o.universidad){heading('Educación');rowLR(o.carrera||'',o.etapa);if(o.universidad)para(o.universidad,9.5,'italic',MUTED);if(o.edulogros){y+=2;para(o.edulogros,10,'normal',INK)}}
+    if(o.cursos){heading('Cursos y certificaciones');para(o.cursos,10,'normal',INK)}
+    if(o.habilidades||o.idiomas){heading('Habilidades e idiomas');if(o.habilidades)para('Herramientas y habilidades: '+o.habilidades,10,'normal',INK);if(o.idiomas){y+=2;para('Idiomas: '+o.idiomas,10,'normal',INK)}}
+    return doc;
+  }
+  var downloads=null;
+  $('#hvPdf').addEventListener('click',async function(){
+    var o=readHv(), m=$('#hvPdfMsg'), b=$('#hvPdf');
+    if(!o.nombre){m.className='msg err';m.textContent='Escribe al menos tu nombre para generar el PDF.';return}
+    if(!downloads){m.className='msg err';m.textContent='La descarga solo funciona abriendo Trabajo Ya con tu cuenta de Claude.';return}
+    b.setAttribute('disabled','');m.className='msg';m.textContent='Generando tu PDF…';
+    try{
+      var doc=buildPdf(o), pages=doc.getNumberOfPages();
+      var fname=(o.nombre.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9 ]/g,'').trim().replace(/\s+/g,'-')||'Hoja-de-vida')+'-HV.pdf';
+      await downloads.save({filename:fname,data:doc.output('blob')});
+      m.className='msg ok';m.textContent='Listo: '+fname+(pages>1?' ('+pages+' páginas; intenta dejarla en una).':'.');
+    }catch(e){
+      m.className='msg err';
+      m.textContent=e&&e.code==='declined'?'Descarga cancelada.':e&&e.code==='nolib'?'No se pudo cargar el generador de PDF. Recarga la página.':e&&e.code==='rate_limited'?'Ya hay una descarga pendiente. Termínala e intenta de nuevo.':'No se pudo descargar. Intenta de nuevo.';
+    }finally{b.removeAttribute('disabled')}
+  });
+
+  /* Mejorar con IA */
+  var hvCtl=null;
+  $('#hvGo').addEventListener('click',async function(){
+    var o=readHv(), m=$('#hvAiMsg'), res=$('#hvRes'), go=$('#hvGo'), stop=$('#hvStop');
+    if(!o.exp.length&&!o.perfil){m.className='msg err';m.textContent='Escribe al menos una experiencia o proyecto.';return}
+    if(!sample){m.className='msg err';m.textContent='La IA solo funciona abriendo Trabajo Ya con tu cuenta de Claude.';return}
+    var jd=($('#h-jd').value||'').trim();
+    var data={cargo_buscado:o.cargo,carrera:o.carrera,universidad:o.universidad,etapa:o.etapa,logros_academicos:o.edulogros,perfil_actual:o.perfil,
+      experiencias:o.exp.map(function(e,i){return {i:i,cargo:e.cargo,organizacion:e.org,fechas:e.fechas,lo_que_escribio:cut(e.desc,2500)}}),
+      habilidades:o.habilidades,idiomas:o.idiomas,cursos:o.cursos};
+    var prompt='Eres un reclutador senior del mercado laboral colombiano. Convierte la información de este estudiante o recién egresado en una hoja de vida profesional para el cargo que busca, lista para pasar filtros automáticos (ATS) y la lectura rápida de un reclutador.\n\n'+
+      'REGLAS:\n- Español profesional, como se escribe en Colombia.\n- NO inventes empresas, cargos, cifras, fechas, herramientas ni logros. Usa solo lo que está en los datos. Si un logro necesita una cifra que no está, escribe [agrega cifra].\n'+
+      '- "perfil": 2 o 3 líneas (40 a 70 palabras), en primera persona implícita (sin "yo"), con el cargo o área que busca, sus fortalezas reales y su mejor logro con cifra si existe. Sin adjetivos vacíos.\n'+
+      '- "experiencia": para cada experiencia (usa el mismo "i"), de 2 a 4 viñetas con verbo de acción en pasado (aumenté, lideré, reduje, diseñé…) + resultado medible + cómo lo hizo. Si el cargo está vacío o es pobre, propone un nombre de cargo claro y honesto en "cargo"; si está bien, déjalo igual.\n'+
+      '- "habilidades": {"tecnicas": hasta 10 herramientas o conocimientos técnicos que la persona realmente tiene, ordenados por relevancia para el cargo; "blandas": hasta 3, solo si la experiencia las demuestra}.\n'+
+      '- "idiomas": lista con nivel, por ejemplo "Inglés B2". Si no hay nivel, no lo inventes.\n'+
+      '- "consejos": 3 consejos concretos sobre lo que más le falta a esta hoja de vida.\n'+
+      (jd?'- Hay una vacante: prioriza las palabras del aviso que sean verdad para la persona, sin inventar.\n':'')+
+      '\nResponde SOLO con JSON con esta forma exacta: {"perfil":"...","experiencia":[{"i":0,"cargo":"...","vinetas":["..."]}],"habilidades":{"tecnicas":["..."],"blandas":["..."]},"idiomas":["..."],"consejos":["..."]}\n\n'+
+      'DATOS:\n'+JSON.stringify(data)+(jd?'\n\nVACANTE:\n'+cut(jd,4000):'');
+    hvCtl=new AbortController();
+    go.setAttribute('disabled','');stop.hidden=false;m.className='msg';m.textContent='Mejorando tu hoja de vida… puede tardar hasta un minuto.';res.innerHTML='';
+    try{
+      var r=await sample.json(prompt,{signal:hvCtl.signal});
+      if(!r||typeof r!=='object') throw {code:'invalid_json'};
+      var prop={perfil:String(r.perfil||''),exp:{},tec:arr((r.habilidades||{}).tecnicas).map(String).filter(Boolean),bla:arr((r.habilidades||{}).blandas).map(String).filter(Boolean),idi:arr(r.idiomas).map(String).filter(Boolean)};
+      arr(r.experiencia).forEach(function(x){var i=+x.i;if(!isNaN(i)&&o.exp[i])prop.exp[i]={cargo:String(x.cargo||''),v:arr(x.vinetas).map(String).filter(Boolean)}});
+      if(prop.perfil){res.appendChild(el('span',{cls:'label',text:'Perfil'}));if(o.perfil)res.appendChild(el('p',{cls:'before',text:o.perfil}));res.appendChild(el('div',{cls:'out',text:prop.perfil}))}
+      Object.keys(prop.exp).forEach(function(i){var e=o.exp[i],p=prop.exp[i];if(!p.v.length)return;
+        res.appendChild(el('span',{cls:'label',text:(p.cargo||e.cargo||'Experiencia')+(e.org?' · '+e.org:'')}));
+        if(e.desc)res.appendChild(el('p',{cls:'before',text:e.desc}));
+        res.appendChild(el('div',{cls:'out',text:p.v.map(function(v){return '• '+v}).join('\n')}));
+      });
+      if(prop.tec.length||prop.bla.length){res.appendChild(el('span',{cls:'label',text:'Habilidades'}));res.appendChild(el('div',{cls:'chips'},prop.tec.map(function(x){return el('span',{cls:'chip',text:x})}).concat(prop.bla.map(function(x){return el('span',{cls:'chip soft',text:x})}))))}
+      if(prop.idi.length){res.appendChild(el('span',{cls:'label',text:'Idiomas'}));res.appendChild(el('div',{cls:'out',text:prop.idi.join(', ')}))}
+      var cs=arr(r.consejos).map(String).filter(Boolean);
+      if(cs.length){res.appendChild(el('span',{cls:'label',text:'Lo que más le falta'}));res.appendChild(el('ul',{style:'margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px'},cs.map(function(x){return el('li',{text:x})})))}
+      var use=el('button',{cls:'btn hl',type:'button',text:'Usar esta versión'}), um=el('span',{cls:'msg'});
+      use.addEventListener('click',function(){
+        var f=$('#hvForm');
+        if(prop.perfil) f.elements.perfil.value=prop.perfil;
+        Object.keys(prop.exp).forEach(function(i){var p=prop.exp[i];if(!expState[i])return;if(p.v.length)expState[i].desc=p.v.join('\n');if(p.cargo)expState[i].cargo=p.cargo});
+        if(prop.tec.length||prop.bla.length) f.elements.habilidades.value=prop.tec.concat(prop.bla).join(', ');
+        if(prop.idi.length) f.elements.idiomas.value=prop.idi.join(', ');
+        renderExp();onHvChange();renderHvAll();
+        um.className='msg ok';um.textContent='Aplicada. Completa los espacios [agrega cifra], guarda y descarga tu PDF.';
+      });
+      res.appendChild(el('div',{cls:'row'},[use,um]));
+      m.className='msg ok';m.textContent='Listo. Revisa la propuesta y úsala si te gusta.';
+    }catch(e){
+      if(e&&e.code==='cancelled'){m.className='msg';m.textContent='Detenido.'}
+      else{m.className='msg err';m.textContent=liErr(e&&e.code)}
+    }finally{go.removeAttribute('disabled');stop.hidden=true;hvCtl=null}
+  });
+  $('#hvStop').addEventListener('click',function(){if(hvCtl)hvCtl.abort()});
+
+  /* Empresas (vista candidato) */
+  function buscanList(txt){var lines=String(txt||'').split(/\n+/).map(function(s){return s.trim()}).filter(Boolean);if(!lines.length)return null;return el('ul',null,lines.map(function(l){return el('li',{text:l})}))}
+  function videoNode(v,onRemove){
+    var box=el('div',{cls:'vid'});
+    if(v.tipo==='archivo'){box.appendChild(el('video',{controls:'',preload:'metadata',src:'/_blob/'+v.asset}));box.appendChild(el('span',{cls:'t',text:v.titulo||'Entrevista'}))}
+    else{var a=el('a',{cls:'vlink',href:v.url,target:'_blank',rel:'noopener'},[el('span',{text:v.titulo||'Ver entrevista'}),el('span',{text:'Ver ↗'})]);box.appendChild(a)}
+    if(onRemove)box.appendChild(el('button',{cls:'btn danger sm rm',type:'button',text:'Quitar video',onclick:onRemove}));
+    return box;
+  }
+  function renderVacs(){
+    var list=$('#vacList'); list.innerHTML='';
+    if(!db){list.appendChild(el('div',{cls:'empty'},[el('b',{text:'Las empresas aparecen cuando abres Trabajo Ya con tu cuenta.'}),el('span',{text:'Inicia sesión y recarga la página.'})]));return}
+    if(!vacs.length){list.appendChild(el('div',{cls:'empty'},[el('b',{text:'Todavía no hay empresas publicadas.'}),el('span',{text:isEditor?'Agrega la primera desde el Panel.':'Vuelve pronto: estamos grabando las entrevistas con reclutadores.'})]));return}
+    var hv=readHv(), ready=hvOk(hv);
+    vacs.forEach(function(v){
+      var d=v.data, applied=mine.apps&&mine.apps[v.id];
+      var card=el('article',{cls:'card'});
+      card.appendChild(el('div',{cls:'vac-h'},[el('div',null,[el('h3',{text:d.empresa}),el('p',{cls:'meta',text:[d.puesto,d.ciudad].filter(Boolean).join(' · ')})]),applied?el('span',{cls:'pill '+(ESTADOS[applied.estado]||'sent'),text:applied.estado}):null]));
+      var bl=buscanList(d.buscan); if(bl) card.appendChild(el('div',{cls:'buscan'},[el('span',{cls:'label',text:'Qué buscan'}),bl]));
+      var vids=(d.videos||[]);
+      if(vids.length){var g=el('div',{cls:'videos'});vids.forEach(function(x){g.appendChild(videoNode(x))});card.appendChild(el('div',{cls:'buscan'},[el('span',{cls:'label',text:'Entrevistas'}),g]))}
+      if(d.descripcion) card.appendChild(el('details',{cls:'tips'},[el('summary',{text:'Descripción del cargo'}),el('p',{text:d.descripcion,style:'white-space:pre-wrap;margin-top:8px'})]));
+      var msg=el('span',{cls:'msg'});
+      var btn=el('button',{cls:'btn hl',type:'button',text:applied?'Ya aplicaste':'Aplicar con mi hoja de vida'});
+      if(applied||!ready||!uid||canWrite===false) btn.setAttribute('disabled','');
+      if(!applied&&!ready) msg.textContent='Primero completa y guarda tu hoja de vida.';
+      else if(!applied&&canWrite===false) msg.textContent='Tu acceso es de solo lectura. Pide acceso para poder aplicar.';
+      btn.addEventListener('click',function(){apply(v,btn,msg)});
+      card.appendChild(el('div',{cls:'row'},[btn,msg]));
+      list.appendChild(card);
+    });
+  }
+  async function apply(v,btn,msg){
+    var hv=readHv(); if(!hvOk(hv)){msg.textContent='Primero completa y guarda tu hoja de vida.';return}
+    btn.setAttribute('disabled','');msg.className='msg';msg.textContent='Enviando…';
+    var entry={empresa:v.data.empresa,puesto:v.data.puesto||'',fecha:new Date().toISOString(),estado:'Enviada',mensaje:''};
+    var apps={};apps[v.id]=entry;
+    try{
+      var ref=db.doc('postulaciones/'+uid), snap=await ref.get();
+      if(snap.exists) await ref.update({hv:hv,actualizado:entry.fecha,apps:apps});
+      else await ref.set({hv:hv,creado:entry.fecha,actualizado:entry.fecha,apps:apps});
+      msg.className='msg ok';msg.textContent='Listo. Tu hoja de vida llegó a '+v.data.empresa+'.';
+    }catch(err){btn.removeAttribute('disabled');msg.className='msg err';msg.textContent='No se pudo enviar. Intenta de nuevo en un momento.'}
+  }
+
+  /* Mis postulaciones */
+  function renderMine(){
+    var box=$('#misList'); box.innerHTML='';
+    var ids=Object.keys(mine.apps||{}).sort(function(a,b){return String(mine.apps[b].fecha).localeCompare(String(mine.apps[a].fecha))});
+    var yes=ids.filter(function(i){return mine.apps[i].estado==='Le interesas'}).length, bd=$('#misBadge');
+    bd.textContent=yes; bd.hidden=!yes;
+    if(!ids.length){box.appendChild(el('div',{cls:'empty',style:'border:0;padding:12px'},[el('b',{text:'Aún no has aplicado a ninguna empresa.'}),el('span',{text:'Ve a Empresas, mira las entrevistas y aplica con un clic.'})]));return}
+    ids.forEach(function(i){
+      var a=mine.apps[i];
+      var row=el('div',{cls:'app-row'},[el('div',null,[el('div',{cls:'who',text:a.empresa}),el('div',{cls:'when',text:(a.puesto?a.puesto+' · ':'')+'aplicaste el '+fecha(a.fecha)})]),el('span',{cls:'pill '+(ESTADOS[a.estado]||'sent'),text:a.estado})]);
+      if(a.mensaje) row.appendChild(el('div',{cls:'reply'},[el('span',{cls:'label',text:'Mensaje de la empresa'}),el('p',{text:a.mensaje,style:'white-space:pre-wrap;margin-top:4px'})]));
+      box.appendChild(row);
+    });
+  }
+
+  /* Panel: vacantes */
+  $('#vacForm').addEventListener('submit',async function(e){
+    e.preventDefault();var m=$('#vacMsg');
+    var d={empresa:$('#n-emp').value.trim(),puesto:$('#n-pue').value.trim(),ciudad:$('#n-ciu').value.trim(),buscan:$('#n-bus').value.trim(),descripcion:$('#n-des').value.trim(),videos:[],creado:new Date().toISOString()};
+    if(!d.empresa||!d.puesto){m.className='msg err';m.textContent='Escribe la empresa y el cargo.';return}
+    try{await db.collection('vacantes').add(d);m.className='msg ok';m.textContent='Publicada.';['#n-emp','#n-pue','#n-ciu','#n-bus','#n-des'].forEach(function(s){$(s).value=''})}
+    catch(err){m.className='msg err';m.textContent=err&&err.code==='quota_exceeded'?'Se llenó el espacio de datos. Borra vacantes antiguas.':'No se pudo publicar. Intenta de nuevo.'}
+  });
+  function renderPanelVacs(){
+    var box=$('#panVac'); box.innerHTML='';
+    if(!vacs.length){box.appendChild(el('div',{cls:'empty'},[el('b',{text:'Aún no hay vacantes.'}),el('span',{text:'Crea la primera con el formulario de arriba.'})]));return}
+    vacs.forEach(function(v){
+      var d=v.data, ref=db.doc('vacantes/'+v.id), card=el('div',{cls:'card'});
+      var count=allApps.filter(function(a){return a.vid===v.id}).length;
+      card.appendChild(el('div',{cls:'vac-h'},[el('div',null,[el('h3',{text:d.empresa}),el('p',{cls:'meta',text:[d.puesto,d.ciudad].filter(Boolean).join(' · ')+' · '+count+' postulaciones'})])]));
+      var vids=d.videos||[];
+      if(vids.length){var g=el('div',{cls:'videos'});vids.forEach(function(x,i){g.appendChild(videoNode(x,async function(){var nv=vids.slice();nv.splice(i,1);try{await ref.update({videos:nv});if(x.tipo==='archivo'&&assets){try{await assets.delete(x.asset)}catch(e){}}}catch(e){}}))});card.appendChild(g)}
+      else card.appendChild(el('p',{cls:'msg',text:'Sin videos todavía.'}));
+      // Subir video
+      var tit=el('input',{type:'text',placeholder:'Título del video (ej.: Qué busca Grupo X en un practicante)','aria-label':'Título del video'});
+      var file=el('input',{type:'file',accept:'video/mp4,video/webm','aria-label':'Archivo de video'});
+      var link=el('input',{type:'url',placeholder:'…o pega un enlace de YouTube o Drive','aria-label':'Enlace del video'});
+      var vm=el('span',{cls:'msg'});
+      var add=el('button',{cls:'btn sm',type:'button',text:'Agregar video'});
+      add.addEventListener('click',async function(){
+        var t=tit.value.trim()||'Entrevista con el reclutador', f=file.files&&file.files[0], u=link.value.trim(), item=null;
+        vm.className='msg';
+        if(f){
+          if(!assets){vm.className='msg err';vm.textContent='Tu acceso no permite subir archivos. Usa un enlace.';return}
+          if(f.size>20*1024*1024){vm.className='msg err';vm.textContent='El archivo pesa más de 20 MB. Recórtalo o súbelo a YouTube (oculto) y pega el enlace.';return}
+          add.setAttribute('disabled','');vm.textContent='Subiendo…';
+          try{var type=/\.webm$/i.test(f.name)?'video/webm':'video/mp4';var r=await assets.upload(f,{type:type});item={tipo:'archivo',asset:r.id,titulo:t}}
+          catch(err){add.removeAttribute('disabled');vm.className='msg err';vm.textContent=err&&err.code==='too_large'?'El archivo es muy pesado (máximo 20 MB).':err&&err.code==='unsupported_type'?'Formato no soportado. Usa MP4 o WebM.':'No se pudo subir. Intenta de nuevo.';return}
+        }else if(/^https:\/\//i.test(u)){item={tipo:'link',url:u,titulo:t}}
+        else{vm.className='msg err';vm.textContent='Elige un archivo o pega un enlace que empiece por https://';return}
+        try{await ref.update({videos:vids.concat([item])});vm.className='msg ok';vm.textContent='Video agregado.'}
+        catch(err){vm.className='msg err';vm.textContent='No se pudo guardar el video.'}
+        add.removeAttribute('disabled');
+      });
+      card.appendChild(el('div',{cls:'grid2'},[el('div',{cls:'fld'},[el('label',{text:'Título'}),tit]),el('div',{cls:'fld'},[el('label',{text:'Archivo MP4 o WebM (hasta 20 MB)'}),file]),el('div',{cls:'fld'},[el('label',{text:'O enlace'}),link])]));
+      card.appendChild(el('div',{cls:'row'},[add,vm]));
+      // Borrar vacante con confirmación en dos pasos
+      var del=el('button',{cls:'btn danger sm',type:'button',text:'Borrar vacante'}), armed=false;
+      del.addEventListener('click',async function(){
+        if(!armed){armed=true;del.textContent='Confirmar: borrar '+d.empresa;setTimeout(function(){armed=false;del.textContent='Borrar vacante'},4000);return}
+        try{await ref.delete()}catch(e){}
+      });
+      card.appendChild(el('div',{cls:'row'},[del]));
+      box.appendChild(card);
+    });
+  }
+
+  /* Panel: postulaciones */
+  function hvText(h){h=h||{};var out=[h.nombre,h.cargo,[h.carrera,h.universidad,h.etapa].filter(Boolean).join(' · '),[h.ciudad,h.correo,h.celular].filter(Boolean).join(' · '),h.linkedin,''];
+    if(h.perfil)out.push('PERFIL',h.perfil,'');
+    if(Array.isArray(h.exp)&&h.exp.length){out.push('EXPERIENCIA Y PROYECTOS');h.exp.forEach(function(e){out.push([e.cargo,e.org,e.lugar,e.fechas].filter(Boolean).join(' · '));String(e.desc||'').split(/\n+/).filter(Boolean).forEach(function(l){out.push('• '+l.replace(/^[\s•\-\*·]+/,''))});out.push('')})}
+    else if(h.experiencia)out.push('EXPERIENCIA Y PROYECTOS',h.experiencia,'');
+    if(h.edulogros)out.push('LOGROS ACADÉMICOS',h.edulogros,'');
+    if(h.cursos)out.push('CURSOS Y CERTIFICACIONES',h.cursos,'');
+    if(h.habilidades)out.push('HABILIDADES',h.habilidades,'');
+    if(h.idiomas)out.push('IDIOMAS',h.idiomas);
+    return out.filter(function(x){return x!=null}).join('\n').replace(/\n{3,}/g,'\n\n').trim()}
+  function renderPanelApps(){
+    var box=$('#panApps'); box.innerHTML='';
+    if(!allApps.length){box.appendChild(el('div',{cls:'empty'},[el('b',{text:'Todavía no hay postulaciones.'}),el('span',{text:'Aparecen aquí apenas alguien aplica.'})]));return}
+    var groups={};allApps.forEach(function(a){(groups[a.vid]=groups[a.vid]||[]).push(a)});
+    Object.keys(groups).forEach(function(vid){
+      var first=groups[vid][0].app, card=el('div',{cls:'card'});
+      card.appendChild(el('div',{cls:'vac-h'},[el('div',null,[el('h3',{text:first.empresa}),el('p',{cls:'meta',text:(first.puesto||'')+' · '+groups[vid].length+' candidatos'})])]));
+      groups[vid].sort(function(a,b){return String(b.app.fecha).localeCompare(String(a.app.fecha))}).forEach(function(a){
+        var h=a.hv||{}, row=el('div',{cls:'app-row'});
+        row.appendChild(el('div',null,[el('div',{cls:'who',text:h.nombre||'Sin nombre'}),el('div',{cls:'when',text:[h.carrera,'aplicó el '+fecha(a.app.fecha)].filter(Boolean).join(' · ')})]));
+        row.appendChild(el('span',{cls:'pill '+(ESTADOS[a.app.estado]||'sent'),text:a.app.estado}));
+        var det=el('details',{cls:'tips',style:'grid-column:1/-1'},[el('summary',{text:'Ver hoja de vida'}),el('div',{cls:'hvbox',style:'margin-top:8px',text:hvText(h)})]);
+        det.addEventListener('toggle',function(){if(det.open&&a.app.estado==='Enviada')setState(a,'Vista',a.app.mensaje||'')});
+        row.appendChild(det);
+        var txt=el('textarea',{placeholder:'Mensaje para el candidato (ej.: Nos gustó tu perfil. Te escribiremos al correo para agendar una entrevista esta semana.)','aria-label':'Mensaje para '+(h.nombre||'el candidato')});
+        txt.value=a.app.mensaje||'';
+        var am=el('span',{cls:'msg'});
+        row.appendChild(el('div',{cls:'actions'},[txt,el('div',{cls:'row'},[
+          el('button',{cls:'btn hl sm',type:'button',text:'Le interesa a la empresa',onclick:function(){setState(a,'Le interesas',txt.value.trim(),am)}}),
+          el('button',{cls:'btn ghost sm',type:'button',text:'No continúa',onclick:function(){setState(a,'No continúa',txt.value.trim(),am)}}),am])]));
+        card.appendChild(row);
+      });
+      box.appendChild(card);
+    });
+  }
+  async function setState(a,estado,mensaje,am){
+    var apps={};apps[a.vid]={estado:estado,mensaje:mensaje,respondido:new Date().toISOString()};
+    try{await db.doc('postulaciones/'+a.cid).update({apps:apps});if(am){am.className='msg ok';am.textContent='Respuesta enviada al candidato.'}}
+    catch(e){if(am){am.className='msg err';am.textContent='No se pudo guardar. Intenta de nuevo.'}}
+  }
+
+  /* Optimizador de LinkedIn */
+  var sample=null, liCtl=null;
+  var LIF=['cargo','ciudad','titular','acerca','experiencia','habilidades','educacion','conexiones','jd1','jd2','jd3'];
+  function readLi(){var f=$('#liForm'),o={};LIF.forEach(function(k){o[k]=(f.elements[k].value||'').trim()});return o}
+  var liDraft=LS('li2'); if(liDraft){var lf=$('#liForm');LIF.forEach(function(k){if(liDraft[k])lf.elements[k].value=liDraft[k]})}
+  var manual=LS('liManual2')||{};
+  var MANUAL=[
+    {id:'foto',t:'Tengo foto profesional',tip:'Cara visible, buena luz y fondo neutro.'},
+    {id:'banner',t:'Cambié el banner por uno propio',tip:'Tamaño 1584 × 396 px, con una frase de lo que haces.'},
+    {id:'url',t:'Personalicé mi URL (linkedin.com/in/nombre-apellido)',tip:'Ponla también en tu hoja de vida.'},
+    {id:'otw',t:'Activé "Abierto a trabajar" con mis cargos objetivo',tip:'Puedes dejarlo visible solo para reclutadores.'}
+  ];
+  function renderManual(){
+    var ul=$('#liManualList');ul.innerHTML='';
+    MANUAL.forEach(function(c){
+      var cb=el('input',{type:'checkbox',id:'lim-'+c.id});cb.checked=!!manual[c.id];
+      cb.addEventListener('change',function(){manual[c.id]=cb.checked;LS('liManual2',manual);renderLi()});
+      ul.appendChild(el('li',null,[cb,el('label',{'for':'lim-'+c.id},[c.t,el('span',{cls:'tip',text:c.tip})]),el('span')]));
+    });
+  }
+
+  function norm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+  function toks(t){return norm(t).split(/[^a-z0-9+#]+/).filter(Boolean)}
+  var STOP=('para con los las del una unos unas por que como sus este esta estos estas entre mas tener contar sera somos buscamos busca empresa cargo importante persona personas nuestro nuestra nuestros equipo requisitos funciones ofrecemos perfil vacante candidato candidata manejo minimo deseable afines desde hasta donde cada todo toda todos todas sobre segun tambien otros otras puede pueden debe deben area areas trabajo laboral contrato salario ciudad horario lunes viernes sabado semana semanas meses anos experiencia profesional estudiante estudiantes semestre conocimiento conocimientos habilidades habilidad procesos proceso elaboracion seguimiento control caso ellos ellas ser sin muy bien tipo nivel minima minimo mayor menor gran grandes contar postulate aplica aplicar interesados importante oportunidad beneficios condiciones excelente buen buena principales responsabilidades responsable apoyo apoyar realizar garantizar asegurar incluye incluyendo dentro mediante parte manera forma tiempo completo medio presencial remoto hibrido modalidad colombia medellin bogota cali').split(' ');
+  var SHORT=['sql','sap','crm','erp','kpi','bi','ia','qa','ux','ui','api','b2','c1','dian','seo','sem','ads'];
+  function stemHas(list,t){var s=t.length>=7?t.slice(0,6):null;return list.some(function(w){return w===t||(s&&w.indexOf(s)===0)})}
+  function keywords(o){
+    var jd=[o.jd1,o.jd2,o.jd3].join('\n'), freq={};
+    toks(jd).forEach(function(w){if(STOP.indexOf(w)>-1)return;if(w.length<4&&SHORT.indexOf(w)<0)return;if(/^\d+$/.test(w))return;freq[w]=(freq[w]||0)+1});
+    var out=Object.keys(freq).sort(function(a,b){return freq[b]-freq[a]||a.localeCompare(b)}).slice(0,18);
+    toks(o.cargo).filter(function(w){return w.length>3&&STOP.indexOf(w)<0}).forEach(function(w){if(out.indexOf(w)<0)out.unshift(w)});
+    return out.slice(0,20);
+  }
+  var BUZZ=/(apasionad|visionari|guru|gurú|ninja|rockstar|crack|emprendedor serial|lider nato|líder nato|proactiv|#)/i;
+  var WEAK=/^(\W*)(responsable de|encargad[oa] de|funciones|apoyo en|apoyé en|ayudé en|tareas)/i;
+  var IRREG=['reduje','hice','conduje','produje','introduje','propuse','obtuve','mantuve','dirigi','traduje','dispuse','supe','pude','puse','traje','construi','distribui','contribui','atendi','vendi','aprendi','escribi','resolvi','defini','consegui','dirigi'];
+  function verbStart(line){var w=line.replace(/^[\W\d_]+/,'').split(/\s+/)[0]||'';if(/(é|í|ó)$/i.test(w))return true;return IRREG.indexOf(norm(w))>-1}
+  function words(s){s=String(s||'').trim();return s?s.split(/\s+/).length:0}
+
+  function analyze(o){
+    var kws=keywords(o), hasJd=!!(o.jd1||o.jd2||o.jd3);
+    var T={tit:toks(o.titular),ace:toks(o.acerca),exp:toks(o.experiencia),hab:toks(o.habilidades)};
+    var cargoW=toks(o.cargo).filter(function(w){return w.length>3&&STOP.indexOf(w)<0});
+    var titNorm=norm(o.titular);
+    var hasCargo=cargoW.length>0&&cargoW.some(function(w){return titNorm.indexOf(w)>-1});
+    var aw=words(o.acerca), firstLine=(o.acerca.split(/\n/)[0]||'').trim();
+    var lines=o.experiencia.split(/\n+/).map(function(s){return s.trim()}).filter(function(s){return s.length>15});
+    var bullets=lines.filter(function(l){return !/·|\||\b(19|20)\d{2}\b.*[–-]/.test(l)||verbStart(l)});
+    var numR=bullets.length?bullets.filter(function(l){return /\d/.test(l)}).length/bullets.length:0;
+    var verbR=bullets.length?bullets.filter(verbStart).length/bullets.length:0;
+    var skills=o.habilidades.split(/[,;\n·|]+/).map(function(s){return s.trim()}).filter(Boolean);
+    var allProfile=T.tit.concat(T.ace,T.exp,T.hab);
+    var jdK=kws.filter(function(k){return cargoW.indexOf(k)<0});
+    var cov=jdK.length?jdK.filter(function(k){return stemHas(allProfile,k)}).length/jdK.length:0;
+    var kwAce=kws.filter(function(k){return stemHas(T.ace,k)}).length;
+    var kwTit=jdK.some(function(k){return stemHas(T.tit,k)});
+    var con=o.conexiones===''?-1:+o.conexiones;
+    var S=[
+      {n:'Lo básico',i:[
+        [!!manual.foto,25,'Foto profesional','Con foto recibes hasta 21 veces más visitas y hasta 36 veces más mensajes, según LinkedIn.'],
+        [!!manual.banner,15,'Banner propio','La mayoría deja el banner por defecto: es espacio gratis para decir qué haces.'],
+        [!!o.ciudad,15,'Ciudad en el perfil','Más del 30 % de los reclutadores busca filtrando por ubicación, según LinkedIn.'],
+        [!!manual.url,15,'URL personalizada','Se ve profesional en tu hoja de vida y en tu firma de correo.'],
+        [!!manual.otw,15,'"Abierto a trabajar" activado','Les avisa a los reclutadores que estás disponible.'],
+        [con>=2,15,'Al menos 150 conexiones','Conecta con compañeros, profesores y egresados de tu universidad; más conexiones, más apareces en búsquedas.']
+      ]},
+      {n:'Titular',i:[
+        [hasCargo,30,'Menciona el cargo que buscas','Es lo que más pesa en el buscador de LinkedIn.'],
+        [o.titular.length>=60&&o.titular.length<=220,20,'Usa entre 60 y 220 caracteres','Tienes 220: aprovéchalos.'],
+        [/[|·•,]/.test(o.titular)&&o.titular.length>=40,20,'Suma habilidades o una prueba','Fórmula: Cargo | 2 o 3 habilidades | un logro o diferencial.'],
+        [!!o.titular&&!/^\s*(estudiante|egresad[oa]|profesional)\b[^|·,]*$/i.test(o.titular),15,'Dice más que "Estudiante en…"','Un titular con solo tu universidad no aparece cuando buscan un cargo.'],
+        [!!o.titular&&!BUZZ.test(o.titular),15,'Sin palabras vacías ni hashtags','Evita "apasionado", "visionario", "proactivo" o #.']
+      ]},
+      {n:'Acerca de',i:[
+        [aw>=40,15,'Al menos 40 palabras','LinkedIn indica que los resúmenes de 40 palabras o más aparecen más en búsquedas.'],
+        [aw>=150&&aw<=450,15,'Entre 150 y 450 palabras','Suficiente para contar tu historia sin cansar.'],
+        [/\b(soy|me|he|mi|estoy|trabajo|estudio|tengo)\b/i.test(o.acerca),10,'Escrito en primera persona','Se lee cercano y genera más conversaciones.'],
+        [firstLine.length>=20&&firstLine.length<=220&&!/^(soy una persona|persona (proactiva|responsable)|me considero)/i.test(firstLine),15,'Las primeras líneas enganchan','Es lo único que se ve antes de "ver más". Empieza con lo que haces o tu mejor logro.'],
+        [/\d/.test(o.acerca),20,'Incluye logros con números','Una cifra vale más que tres adjetivos.'],
+        [hasJd?kwAce>=3:(cargoW.some(function(w){return norm(o.acerca).indexOf(w)>-1})),15,'Usa palabras clave del cargo','Repite con naturalidad los términos de tus vacantes.'],
+        [/(busco|buscando|me interesa|abiert[oa] a|escr[ií]beme|contact|correo|conversar|hablemos)/i.test(o.acerca),10,'Cierra con qué buscas y cómo contactarte','Invita a escribirte.']
+      ]},
+      {n:'Experiencia',i:[
+        [bullets.length>=3,15,'Al menos 3 logros descritos','Incluye prácticas, monitorías, proyectos y tu emprendimiento.'],
+        [numR>=0.5,30,'La mitad o más de tus logros tiene números','Cantidades, porcentajes, plazos o comparaciones.'],
+        [verbR>=0.5,20,'Empiezas con verbos de acción','Aumenté, lideré, reduje, diseñé, negocié…'],
+        [!!o.experiencia&&!lines.some(function(l){return WEAK.test(l)}),20,'Sin "Responsable de" ni "Encargado de"','Cuenta lo que lograste, no tus funciones.'],
+        [/\b(19|20)\d{2}\b/.test(o.experiencia),15,'Incluye fechas','Ejemplo: Ene 2026 – actual. Los reclutadores leen primero cargos y fechas.']
+      ]},
+      {n:'Palabras clave y habilidades',i:[
+        [skills.length>=5,30,'Al menos 5 habilidades','Con 5 o más, LinkedIn reporta hasta 33 veces más mensajes de reclutadores.'],
+        [skills.length>=10,10,'10 habilidades o más','Puedes agregar hasta 100; prioriza las de tus vacantes.'],
+        [hasJd&&cov>=0.6,40,hasJd?('Cubres el 60 % de las palabras de tus vacantes (hoy: '+Math.round(cov*100)+' %)'):'Cubres las palabras de tus vacantes',hasJd?'Agrega las que faltan y sean verdad para ti.':'Pega al menos una vacante en el paso 2 para medirlo.'],
+        [hasJd&&kwTit,20,'Una palabra clave de tus vacantes en el titular','Es el lugar donde más pesa.']
+      ]}
+    ];
+    S.forEach(function(s){s.score=s.i.reduce(function(a,x){return a+(x[0]?x[1]:0)},0)});
+    var total=Math.round(S.reduce(function(a,s){return a+s.score},0)/S.length);
+    return {S:S,total:total,kws:kws,T:T,hasJd:hasJd,cov:cov,jdK:jdK};
+  }
+
+  var lastA=null;
+  function renderLi(){
+    var o=readLi(); LS('li2',o);
+    $('#li-titc').textContent=o.titular.length+' / 220 caracteres';
+    $('#li-acec').textContent=words(o.acerca)+' palabras';
+    var A=analyze(o); lastA=A;
+    $('#liScore').firstChild.nodeValue=String(A.total);
+    $('#liBar').style.width=A.total+'%';
+    $('#liLevel').textContent=A.total>=80?'Excelente: tu perfil está listo para que te encuentren.':A.total>=50?'Bien encaminado: corrige lo que está en rojo.':'Por mejorar: empieza por el titular y la foto.';
+    var box=$('#liSections'),openSec={};$$('#liSections details').forEach(function(x){if(x.open)openSec[x.dataset.n]=1});box.innerHTML='';
+    A.S.forEach(function(s,idx){
+      var good=s.i.filter(function(x){return x[0]}), bad=s.i.filter(function(x){return !x[0]});
+      var d=el('details',{cls:'sec','data-n':s.n});if(openSec[s.n])d.open=true;
+      d.appendChild(el('summary',null,[el('span',{cls:'sn',text:s.n}),el('span',{cls:'mini'},[el('i',{style:'width:'+s.score+'%'})]),el('span',{cls:'sv',text:String(s.score)})]));
+      var inner=el('div',{cls:'secin'});
+      if(bad.length){inner.appendChild(el('span',{cls:'label',text:'Por mejorar'}));var ub=el('ul',{cls:'checks'});bad.forEach(function(x){ub.appendChild(el('li',null,[el('span',{cls:'ic n',text:'✗'}),el('span',null,[x[2],el('span',{cls:'tip',text:x[3]})]),el('span',{cls:'pts',text:'+'+x[1]})]))});inner.appendChild(ub)}
+      if(good.length){inner.appendChild(el('span',{cls:'label',text:'Bien hecho'}));var ug=el('ul',{cls:'checks'});good.forEach(function(x){ug.appendChild(el('li',null,[el('span',{cls:'ic y',text:'✓'}),el('span',{text:x[2]}),el('span',{cls:'pts',text:String(x[1])})]))});inner.appendChild(ug)}
+      d.appendChild(inner);box.appendChild(d);
+    });
+    // Matriz de búsqueda
+    var mx=$('#liMatrix');mx.innerHTML='';
+    if(!A.kws.length){mx.appendChild(el('div',{cls:'empty'},[el('b',{text:'Escribe el cargo que buscas y pega una vacante.'}),el('span',{text:'Aquí verás qué palabras te hacen aparecer y cuáles te faltan.'})]));return}
+    var cols=[['tit','Titular'],['ace','Acerca de'],['exp','Experiencia'],['hab','Habilidades']];
+    var tb=el('tbody');
+    A.kws.forEach(function(k){
+      var hits=cols.map(function(c){return stemHas(A.T[c[0]],k)}), any=hits.some(Boolean);
+      tb.appendChild(el('tr',{cls:any?'':'miss'},[el('td',{cls:'kw',text:k})].concat(hits.map(function(h){return el('td',{cls:h?'hit':'no',text:h?'✓':'·'})}))));
+    });
+    var found=A.kws.filter(function(k){return cols.some(function(c){return stemHas(A.T[c[0]],k)})}).length;
+    mx.appendChild(el('p',{cls:'msg',text:'Apareces con '+found+' de '+A.kws.length+' palabras.'+(A.hasJd?'':' Pega una vacante para una lista más completa.')}));
+    mx.appendChild(el('div',{cls:'tbl'},[el('table',null,[el('thead',null,[el('tr',null,[el('th',{text:'Palabra'})].concat(cols.map(function(c){return el('th',{text:c[1]})})))]),tb])]));
+  }
+  $('#liForm').addEventListener('input',renderLi);
+  $('#liForm').addEventListener('change',renderLi);
+  $('#liFromHv').addEventListener('click',function(){
+    var h=readHv(), f=$('#liForm'), m=$('#liFromMsg');
+    if(!h.perfil&&!h.experiencia){m.className='msg err';m.textContent='Primero llena tu hoja de vida en la pestaña 1.';return}
+    function fill(k,v){if(v&&!f.elements[k].value.trim())f.elements[k].value=v}
+    fill('experiencia',h.experiencia);fill('acerca',h.perfil);fill('habilidades',[h.habilidades,h.idiomas].filter(Boolean).join(', '));fill('educacion',[h.carrera,h.universidad,h.etapa].filter(Boolean).join(' · '));fill('ciudad',h.ciudad);
+    m.className='msg ok';m.textContent='Listo. Revisa y completa lo que falte.';renderLi();
+  });
+
+  function copyRow(text){
+    var b=el('button',{cls:'btn ghost sm',type:'button',text:'Copiar'});
+    b.addEventListener('click',function(){
+      function ok(){b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar'},1500)}
+      try{navigator.clipboard.writeText(text).then(ok,function(){b.textContent='Selecciona y copia'})}catch(e){b.textContent='Selecciona y copia'}
+    });
+    return el('div',{cls:'out-row'},[el('div',{cls:'out',text:text}),b]);
+  }
+  function liErr(code){
+    return ({not_granted:'Para usar la IA necesitas permitir que esta página use Claude.',sampling_disabled:'La IA no está disponible para tu cuenta.',rate_limited:'Hiciste muchas solicitudes seguidas. Espera un momento y vuelve a intentar.',session_expired:'Tu sesión expiró. Vuelve a iniciar sesión.',invalid_json:'La respuesta llegó incompleta. Intenta de nuevo.',refused:'No pudimos procesar este contenido. Revisa que sea tu información de perfil.',prompt_too_large:'El texto es muy largo. Recorta las vacantes o tu experiencia.',image_rejected:'No pudimos leer esa imagen. Prueba con otra foto en JPG o PNG.',images_unavailable:'La revisión de fotos no está disponible en esta vista.'})[code]||'Algo falló. Intenta de nuevo en un momento.';
+  }
+  function cut(s,n){s=String(s||'');return s.length>n?s.slice(0,n):s}
+  function arr(x){return Array.isArray(x)?x:[]}
+  $('#liGo').addEventListener('click',async function(){
+    var o=readLi(), m=$('#liMsg'), res=$('#liRes'), go=$('#liGo'), stop=$('#liStop');
+    if(!o.cargo){m.className='msg err';m.textContent='Escribe el cargo que buscas.';return}
+    if(!o.titular&&!o.acerca&&!o.experiencia){m.className='msg err';m.textContent='Pega al menos tu experiencia o tu "Acerca de".';return}
+    if(!sample){m.className='msg err';m.textContent='La IA solo funciona abriendo Trabajo Ya con tu cuenta de Claude.';return}
+    var A=lastA||analyze(o), h=readHv();
+    var missing=A.kws.filter(function(k){return !['tit','ace','exp','hab'].some(function(c){return stemHas(A.T[c],k)})});
+    var weak=[];A.S.forEach(function(s){s.i.forEach(function(x){if(!x[0])weak.push(s.n+': '+x[2])})});
+    var jds=[o.jd1,o.jd2,o.jd3].filter(Boolean).map(function(j,i){return 'VACANTE '+(i+1)+':\n'+cut(j,3500)}).join('\n\n');
+    var prompt='Eres un reclutador senior del mercado laboral colombiano y experto en optimizar perfiles de LinkedIn para que aparezcan en las búsquedas de reclutadores. Reescribe el perfil de esta persona para el cargo que busca.\n\n'+
+      'REGLAS:\n- Español profesional y cercano, como se habla en Colombia.\n- NO inventes empresas, cargos, cifras, fechas, herramientas ni logros. Usa solo los datos dados. Si un logro necesita una cifra que no está, escribe [agrega cifra].\n'+
+      '- Usa con naturalidad las palabras clave de las vacantes que sean coherentes con la experiencia real de la persona. Nunca rellenes con palabras sueltas.\n'+
+      '- "titulares": 3 opciones de máximo 220 caracteres, cada una con una fórmula distinta: (1) "Cargo | habilidades | diferencial", (2) "Logro con cifra | Cargo", (3) "Qué problema resuelvo | área o herramientas". Sin hashtags ni palabras como apasionado o visionario.\n'+
+      '- "acerca": de 150 a 300 palabras en primera persona. Primera línea que enganche (qué haces o tu mejor logro), luego prueba con logros concretos, herramientas e idiomas, y cierre con qué busca y una invitación a escribirle. Párrafos cortos separados por saltos de línea.\n'+
+      '- "experiencia": toma cada logro o función de la experiencia y reescríbelo con verbo de acción en primera persona del pasado + resultado medible + cómo. Devuelve pares {"antes","despues"}; máximo 8.\n'+
+      '- "habilidades": {"tecnicas":[hasta 10],"blandas":[hasta 5]} que un reclutador buscaría para este cargo, priorizando las de las vacantes que la persona plausiblemente tiene según su perfil.\n'+
+      '- "banner": una frase corta (máximo 70 caracteres) para el banner.\n'+
+      '- "publicaciones": 3 ideas concretas de publicación para LinkedIn basadas en su experiencia real.\n'+
+      '- "consejos": 3 consejos concretos y cortos sobre lo más importante que le falta.\n\n'+
+      'Responde SOLO con JSON con esta forma exacta: {"titulares":[{"formula":"...","texto":"..."}],"acerca":"...","experiencia":[{"antes":"...","despues":"..."}],"habilidades":{"tecnicas":["..."],"blandas":["..."]},"banner":"...","publicaciones":["..."],"consejos":["..."]}\n\n'+
+      'PERFIL ACTUAL:\nCargo que busca: '+cut(o.cargo,200)+'\nCiudad: '+cut(o.ciudad,100)+'\nEducación: '+cut(o.educacion||h.carrera,300)+'\nTitular: '+cut(o.titular,300)+'\nAcerca de: '+cut(o.acerca,4000)+'\nExperiencia:\n'+cut(o.experiencia,6000)+'\nHabilidades: '+cut(o.habilidades,800)+
+      '\n\nDIAGNÓSTICO AUTOMÁTICO (puntaje '+A.total+'/100). Fallas: '+(weak.slice(0,15).join('; ')||'ninguna')+'\nPalabras de las vacantes que hoy no aparecen en el perfil: '+(missing.join(', ')||'ninguna')+
+      (jds?'\n\n'+jds:'');
+    liCtl=new AbortController();
+    go.setAttribute('disabled','');stop.hidden=false;m.className='msg';m.textContent='Optimizando tu perfil… puede tardar hasta un minuto.';res.innerHTML='';
+    try{
+      var r=await sample.json(prompt,{signal:liCtl.signal});
+      if(!r||typeof r!=='object') throw {code:'invalid_json'};
+      var tits=arr(r.titulares).map(function(t){return typeof t==='string'?{formula:'',texto:t}:{formula:String(t.formula||''),texto:String(t.texto||'')}}).filter(function(t){return t.texto});
+      if(tits.length){res.appendChild(el('span',{cls:'label',text:'Titulares: elige uno'}));tits.forEach(function(t){if(t.formula)res.appendChild(el('span',{cls:'msg',text:t.formula+' · '+t.texto.length+' caracteres'}));res.appendChild(copyRow(t.texto))})}
+      if(r.acerca){res.appendChild(el('span',{cls:'label',text:'Acerca de'}));res.appendChild(copyRow(String(r.acerca)))}
+      var ex=arr(r.experiencia).filter(function(x){return x&&(x.despues||typeof x==='string')});
+      if(ex.length){res.appendChild(el('span',{cls:'label',text:'Tus logros, antes y después'}));ex.forEach(function(x){if(typeof x==='string'){res.appendChild(copyRow(x));return}if(x.antes)res.appendChild(el('p',{cls:'before',text:String(x.antes)}));res.appendChild(copyRow(String(x.despues)))})}
+      var hb=r.habilidades||{}, tec=arr(hb.tecnicas||hb).map(String).filter(Boolean), bla=arr(hb.blandas).map(String).filter(Boolean);
+      if(tec.length||bla.length){res.appendChild(el('span',{cls:'label',text:'Habilidades para tu perfil'}));if(tec.length)res.appendChild(el('div',{cls:'chips'},tec.map(function(x){return el('span',{cls:'chip',text:x})})));if(bla.length)res.appendChild(el('div',{cls:'chips'},bla.map(function(x){return el('span',{cls:'chip soft',text:x})})))}
+      if(r.banner){res.appendChild(el('span',{cls:'label',text:'Frase para tu banner (1584 × 396 px)'}));res.appendChild(copyRow(String(r.banner)))}
+      var pb=arr(r.publicaciones).map(String).filter(Boolean);
+      if(pb.length){res.appendChild(el('span',{cls:'label',text:'Ideas para publicar'}));res.appendChild(el('ol',{style:'margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px'},pb.map(function(x){return el('li',{text:x})})))}
+      var cs=arr(r.consejos).map(String).filter(Boolean);
+      if(cs.length){res.appendChild(el('span',{cls:'label',text:'Lo más importante que te falta'}));res.appendChild(el('ul',{style:'margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px'},cs.map(function(x){return el('li',{text:x})})))}
+      m.className='msg ok';m.textContent='Listo. Copia lo que te guste, pégalo en LinkedIn y vuelve a medir tu puntaje.';
+    }catch(e){
+      if(e&&e.code==='cancelled'){m.className='msg';m.textContent='Detenido.'}
+      else{m.className='msg err';m.textContent=liErr(e&&e.code)}
+    }finally{go.removeAttribute('disabled');stop.hidden=true;liCtl=null}
+  });
+  $('#liStop').addEventListener('click',function(){if(liCtl)liCtl.abort()});
+
+  /* Foto */
+  var photoFile=null;
+  $('#liPhoto').addEventListener('change',function(){
+    var f=this.files&&this.files[0], p=$('#liPhotoPrev');
+    photoFile=f||null; $('#liPhotoRes').innerHTML=''; $('#liPhotoMsg').textContent='';
+    if(f){try{p.src=URL.createObjectURL(f);p.hidden=false}catch(e){}$('#liPhotoGo').removeAttribute('disabled')}else{p.hidden=true;$('#liPhotoGo').setAttribute('disabled','')}
+  });
+  $('#liPhotoGo').addEventListener('click',async function(){
+    var m=$('#liPhotoMsg'), res=$('#liPhotoRes'), b=$('#liPhotoGo');
+    if(!photoFile||!sample) return;
+    b.setAttribute('disabled','');m.className='msg';m.textContent='Revisando tu foto…';res.innerHTML='';
+    var prompt='Evalúa esta imagen como foto de perfil de LinkedIn de alguien que busca empleo en Colombia ('+cut(readLi().cargo||'cargo profesional',120)+'). Evalúa SOLO aspectos de la foto: encuadre (el rostro debe ocupar cerca del 60 % del cuadro, de hombros hacia arriba), iluminación, fondo, nitidez, mirada a cámara, expresión amable, vestimenta acorde a un entorno profesional, que no haya otras personas, recortes raros ni filtros. No comentes rasgos físicos, edad, peso ni atractivo de la persona. Responde SOLO JSON: {"puntaje": número de 1 a 10, "veredicto": "una frase", "bien": ["..."], "mejorar": ["consejos concretos y accionables"]}';
+    try{
+      var r=await sample.json(prompt,{images:photoFile,modelTier:'quick'});
+      var p=Math.max(1,Math.min(10,Math.round(+r.puntaje||0)));
+      res.appendChild(el('div',{cls:'score'},[el('span',{cls:'big',text:String(p)},[]),el('span',{cls:'msg',text:'/ 10 · '+String(r.veredicto||'')})]));
+      var bi=arr(r.bien).map(String).filter(Boolean), me=arr(r.mejorar).map(String).filter(Boolean);
+      if(me.length){res.appendChild(el('span',{cls:'label',text:'Qué mejorar'}));res.appendChild(el('ul',{cls:'checks'},me.map(function(x){return el('li',null,[el('span',{cls:'ic n',text:'✗'}),el('span',{text:x}),el('span')])})))}
+      if(bi.length){res.appendChild(el('span',{cls:'label',text:'Bien hecho'}));res.appendChild(el('ul',{cls:'checks'},bi.map(function(x){return el('li',null,[el('span',{cls:'ic y',text:'✓'}),el('span',{text:x}),el('span')])})))}
+      m.className='msg ok';m.textContent='Listo.';
+    }catch(e){m.className='msg err';m.textContent=liErr(e&&e.code)}
+    finally{b.removeAttribute('disabled')}
+  });
+  async function initPhoto(){
+    if(!sample||!sample.limits) return;
+    try{var L=await sample.limits();if(L&&L.images){$('#liPhotoCard').hidden=false;if(L.images.mediaTypes)$('#liPhoto').setAttribute('accept',L.images.mediaTypes.join(','))}}catch(e){}
+  }
+
+  renderManual(); renderLi();
+
+  /* Ruta LinkedIn en 18 pasos */
+  function T(title,text){return '<div class="tpl"><div class="tpl-bar"><span>'+title+'</span><button class="cp cpy" type="button">Copiar</button></div><pre>'+text+'</pre></div>'}
+  function D(text,src){return '<div class="dato"><span class="tag">Dato</span><p>'+text+(src?' <span class="srcs">('+src+')</span>':'')+'</p></div>'}
+  function GO(target,label){return '<button class="btn ghost sm" type="button" data-goto="'+target+'">'+label+'</button>'}
+  var SRC_LI16='<a href="https://blog.linkedin.com/2016/08/03/5-steps-to-improve-your-linkedin-profile-in-minutes-" target="_blank" rel="noopener">LinkedIn</a>';
+  var SRC_OTW='<a href="https://blog.linkedin.com/2020/october/29/the-benefits-of-sharing-with-your-community-you-re-open-to-work" target="_blank" rel="noopener">LinkedIn</a>';
+  var SRC_25='<a href="https://news.linkedin.com/2019/January/linkedin-new-jobs-and-hiring-features-q4-update" target="_blank" rel="noopener">LinkedIn</a>';
+  var MODS=[
+    {n:'Módulo 1 · Base del perfil e identidad visual',l:[
+      {t:'LinkedIn como máquina de oportunidades',min:3,h:
+        '<p>LinkedIn no es solo un portal de vacantes. Los reclutadores lo usan como un buscador: escriben un cargo, una ciudad y unas habilidades, y contactan a quien aparece. Tu perfil trabaja por ti aunque no estés aplicando.</p>'+
+        '<p>Hay tres formas de conseguir oportunidades ahí, y esta ruta las cubre todas:</p><ol><li><b>Que te encuentren:</b> un perfil optimizado para las búsquedas (pasos 1 a 9).</li><li><b>Que te recomienden:</b> una red de personas que te conocen (pasos 10 a 15).</li><li><b>Aplicar mejor que los demás:</b> alertas, Open to Work y mensajes directos (pasos 16 a 18).</li></ol>'+
+        D('En un conteo publicado por Enter.co había unas 26.500 ofertas abiertas en Colombia solo en LinkedIn.','<a href="https://www.enter.co/?p=515468" target="_blank" rel="noopener">Enter.co</a>')+
+        '<p class="hz"><b>Hazlo ahora:</b> define tu objetivo en una frase: cargo + ciudad + sector. Ejemplo: "Practicante de comercio exterior en Medellín, sector logística". Escríbelo en el optimizador.</p>'+GO('opt-form','Ir al optimizador')},
+      {t:'Entiende cómo te ve un reclutador',min:5,h:
+        '<p>Antes de cambiar nada, mira tu perfil con los ojos de quien contrata. Cuando un reclutador busca, ve una <b>tarjeta pequeña</b> con tu foto, nombre, titular y ciudad. Con eso decide si hace clic. Si entra, lee en este orden:</p>'+
+        '<ol><li>Banner, foto y titular.</li><li>Las primeras líneas del "Acerca de" (lo que se ve antes de "ver más").</li><li>El cargo y la empresa más recientes.</li><li>Experiencia, educación, habilidades y recomendaciones.</li></ol>'+
+        '<p>Los reclutadores filtran por palabras clave, cargo, ciudad, habilidades, empresa, universidad e idioma. Si una palabra no está en tu perfil, no apareces en esa búsqueda.</p>'+
+        '<p class="hz"><b>Hazlo ahora:</b> busca tu cargo objetivo en LinkedIn, entra a la pestaña Personas y abre 5 perfiles de quienes ya lo tienen. Anota las palabras que se repiten en sus titulares y experiencias.</p>'},
+      {t:'Tu foto de perfil',min:5,h:
+        D('Con foto, LinkedIn reporta hasta 21 veces más visitas al perfil y hasta 36 veces más mensajes.',SRC_LI16)+
+        '<p>No necesitas un estudio. Un celular frente a una ventana sirve si cumples esto:</p>'+
+        '<ul class="tick"><li>Tu cara ocupa cerca del 60 % del cuadro, de hombros hacia arriba.</li><li>Luz de frente (una ventana delante de ti), sin sombras fuertes.</li><li>Fondo neutro y ordenado.</li><li>Mirada a la cámara y expresión amable.</li><li>Ropa como la que usarías en una entrevista de tu sector.</li><li>Solo tú, nítida, sin filtros. Tamaño recomendado: 400 × 400 px.</li></ul>'+
+        '<p><b>Evita:</b> selfies de lejos, fotos recortadas de una fiesta, gafas de sol, logos o fotos de grupo.</p>'+GO('opt-photo','Revisar mi foto con IA')},
+      {t:'Diseña tu banner en Canva',min:8,h:
+        '<p>El banner es la imagen de fondo detrás de tu foto. Casi todos lo dejan por defecto, así que es espacio gratis para decir qué haces.</p>'+
+        '<ol><li>En Canva busca "Banner de LinkedIn" (1584 × 396 px) y elige una plantilla sobria.</li><li>Escribe una frase de valor con 2 o 3 palabras clave. Ejemplo: "Comercio exterior · Análisis de costos · Excel y SAP".</li><li>Pon el texto hacia la derecha: en computador la foto tapa la esquina inferior izquierda.</li><li>Usa letra grande y máximo dos colores. Descárgalo en PNG.</li><li>En LinkedIn: tu perfil, ícono de lápiz sobre el fondo, subir imagen.</li></ol>'+
+        '<p>El optimizador con IA te propone la frase para tu banner.</p>'+GO('opt-ai','Generar frase con IA')},
+      {t:'Personaliza tu URL',min:4,h:
+        '<p>Una URL como <code>linkedin.com/in/camila-restrepo</code> se ve profesional en tu hoja de vida, tu correo y tus tarjetas. La que LinkedIn asigna trae números al final.</p>'+
+        '<ol><li>Entra a tu perfil.</li><li>A la derecha, haz clic en "Editar perfil público y URL".</li><li>Edita la URL: usa nombre-apellido. Si ya existe, agrega tu segundo apellido o una inicial.</li><li>Usa solo letras y números, sin espacios ni símbolos.</li></ol>'+
+        '<p class="hz"><b>Hazlo ahora:</b> copia tu nueva URL y pégala en tu hoja de vida, en la pestaña 1.</p>'}
+    ]},
+    {n:'Módulo 2 · SEO y narrativa',l:[
+      {t:'Cómo funciona el SEO de LinkedIn',min:8,h:
+        '<p>SEO es aparecer cuando alguien busca. En LinkedIn apareces si las palabras que escribe el reclutador están en tu perfil, sobre todo en estos lugares, de mayor a menor peso:</p>'+
+        '<ol><li><b>Titular</b> (hasta 220 caracteres).</li><li><b>Cargos de tu experiencia.</b> Usa nombres que la gente busca: "Practicante de comercio exterior" en vez de "Aprendiz área 3".</li><li><b>Habilidades.</b> Puedes agregar hasta 100; prioriza las de tus vacantes.</li><li><b>Acerca de</b> y descripciones de experiencia.</li><li><b>Ubicación:</b> pon tu ciudad real.</li></ol>'+
+        D('Con 5 o más habilidades, LinkedIn reporta hasta 33 veces más mensajes de reclutadores; más del 30 % de los reclutadores filtra por ubicación.',SRC_LI16)+
+        '<p class="hz"><b>Hazlo ahora:</b> pega 2 o 3 vacantes en el optimizador y mira la tabla "Así te encuentra un reclutador". Cada fila vacía es una búsqueda en la que no apareces.</p>'+GO('opt-matrix','Ver mis palabras clave')},
+      {t:'Escribe tu "Acerca de" sin errores',min:8,h:
+        '<p>Solo las primeras dos o tres líneas se ven antes de "ver más". Usa esta estructura:</p>'+
+        '<ol><li><b>Gancho:</b> qué haces y tu mejor logro, en una frase.</li><li><b>Historia corta:</b> qué te mueve del área y qué has hecho.</li><li><b>Prueba:</b> 2 o 3 logros con cifras.</li><li><b>Palabras clave:</b> herramientas, idiomas y temas del cargo.</li><li><b>Cierre:</b> qué buscas y cómo contactarte.</li></ol>'+
+        '<p><b>Errores comunes:</b> empezar con "Soy una persona responsable y proactiva", copiar la hoja de vida en un párrafo, escribir en tercera persona, no usar saltos de línea, no decir qué buscas y tener errores de ortografía. LinkedIn permite 2.600 caracteres; entre 150 y 300 palabras suele bastar.</p>'+
+        T('Plantilla de "Acerca de"','[Gancho: qué haces + tu mejor logro con cifra].\n\nEstudio [carrera] en [universidad] y me enfoco en [área]. [Una o dos frases de por qué te interesa].\n\nAlgunas cosas que he hecho:\n• [Logro 1 con cifra]\n• [Logro 2 con cifra]\n• [Logro 3 con cifra]\n\nHerramientas: [Excel, Power BI, SAP…] · Idiomas: [inglés B2…]\n\nBusco [práctica / primer empleo] como [cargo] en [sector]. Si trabajas en esto, escríbeme por aquí o a [correo].')+
+        GO('opt-ai','Escribir mi Acerca de con IA')},
+      {t:'Técnica CAR para tu experiencia',min:8,h:
+        '<p>CAR significa <b>Contexto o reto</b>, <b>Acción</b> y <b>Resultado</b>. Sirve para que cada viñeta cuente una mini historia con impacto, en vez de una lista de funciones. Es prima de la fórmula X-Y-Z de Google (para la hoja de vida) y del método STAR (para entrevistas).</p>'+
+        '<div class="compare2"><div><span class="k bad">Antes</span><p>Encargada de las redes sociales del negocio.</p></div><div><span class="k good">Con CAR</span><p>El negocio solo vendía en el local; creé un catálogo en WhatsApp Business y publiqué 4 veces por semana; los pedidos a domicilio subieron 40 % en 6 meses.</p></div></div>'+
+        '<p>Por cada cargo escribe una línea de contexto (qué es la empresa o el proyecto) y de 3 a 5 viñetas CAR.</p>'+
+        '<div class="carb"><span class="label">Constructor CAR</span><div class="grid2"><div class="fld"><label for="car-c">Contexto o reto</label><input type="text" id="car-c" placeholder="El negocio solo vendía en el local"></div><div class="fld"><label for="car-a">Acción (qué hiciste tú)</label><input type="text" id="car-a" placeholder="creé un catálogo en WhatsApp Business"></div><div class="fld"><label for="car-r">Resultado (con cifra)</label><input type="text" id="car-r" placeholder="los pedidos subieron 40 % en 6 meses"></div></div><div class="out-row"><div class="out" id="car-out">Escribe las tres partes.</div><button class="btn ghost sm" type="button" id="car-copy">Copiar</button></div></div>'},
+      {t:'Visibilidad sin trucos de algoritmo',min:7,h:
+        '<p>No necesitas hackear el algoritmo. Lo que de verdad aumenta tu visibilidad es constante y simple:</p>'+
+        '<ul class="tick"><li>Perfil completo: foto, banner, titular, Acerca de, experiencia, habilidades y educación.</li><li>Una red relevante: conecta con personas de tu sector, tu universidad y tus empresas objetivo.</li><li>Comentar con valor varias veces por semana (paso 13).</li><li>Publicar de vez en cuando con constancia, aunque sea cada dos semanas (paso 14).</li><li>Responder los comentarios de tus publicaciones el mismo día.</li></ul>'+
+        '<p><b>Evita:</b> grupos para darse "me gusta" entre todos, pedir "comenta SÍ", llenar de hashtags, comprar seguidores y publicar para luego desaparecer. Puede que sumen números, pero no te traen oportunidades.</p>'}
+    ]},
+    {n:'Módulo 3 · Networking estratégico',l:[
+      {t:'Busca personas y vacantes como un reclutador',min:8,h:
+        '<p><b>Personas:</b> escribe un cargo en la barra de búsqueda, elige "Personas" y usa los filtros de ubicación, empresa actual, universidad y conexiones de 2.º grado. Los egresados de tu universidad y quienes tienen contactos en común contigo son los que más responden.</p>'+
+        '<p><b>Búsqueda booleana:</b> combina palabras para afinar.</p><ul><li>Comillas para frases exactas: "comercio exterior".</li><li>OR para alternativas, AND para exigir ambas, NOT para excluir (en mayúsculas).</li><li>Paréntesis para agrupar.</li></ul>'+
+        T('Búsquedas listas para adaptar','("comercio exterior" OR importaciones) AND practicante NOT senior\n("analista de datos" OR "data analyst") AND junior\n"talento humano" AND reclutador AND Medellín')+
+        '<p><b>Vacantes:</b> en Empleos busca el cargo y la ciudad, y filtra por fecha de publicación (últimas 24 horas), nivel de experiencia (prácticas, sin experiencia, junior) y modalidad. Guarda la búsqueda para el paso 16.</p>'},
+      {t:'Personaliza tus invitaciones',min:5,h:
+        '<p>Una invitación con nota bien escrita se acepta y se responde mucho más. Pero las cuentas gratis tienen <b>pocas notas personalizadas al mes</b> y un máximo de unos 200 caracteres, según guías recientes. Úsalas con las personas más importantes; al resto invítalo sin nota y escríbele cuando acepte.</p>'+
+        '<p><b>Fórmula:</b> punto en común + por qué esa persona + una invitación ligera. Nunca pidas trabajo en la invitación.</p>'+
+        T('A un egresado de tu universidad','Hola, [nombre]. Soy estudiante de [carrera] en [universidad], como tú. Me interesa [área] y vi tu camino en [empresa]. ¿Te puedo hacer dos preguntas cortas?')+
+        T('A alguien con el cargo que quieres','Hola, [nombre]. Estoy por terminar [carrera] y [cargo] es justo lo que quiero hacer. Me gustaría seguir tu trabajo y aprender de tu experiencia en [empresa].')+
+        T('A un reclutador','Hola, [nombre]. Sigo las vacantes de [empresa] en [área] y me gustaría estar en tu red para futuras oportunidades de práctica. ¡Gracias!')},
+      {t:'Pide y da recomendaciones',min:6,h:
+        '<p>Una recomendación es otra persona diciendo que eres bueno. Pesa más que cualquier cosa que digas de ti.</p>'+
+        '<p><b>Cómo pedirla:</b> en tu perfil, sección Recomendaciones o el botón "Más" de la persona, "Solicitar recomendación". Pídela a jefes, profesores, clientes y compañeros de proyecto. Dales contexto: qué proyecto y qué habilidad mencionar.</p>'+
+        T('Mensaje para pedirla','Hola, [nombre]. Estoy fortaleciendo mi perfil para buscar práctica en [área]. ¿Me escribirías una recomendación corta? Si te sirve, podrías mencionar [el proyecto X], donde [resultado]. Con gusto te escribo una a ti también.')+
+        '<p><b>Da primero:</b> escribir recomendaciones genera reciprocidad. Usa esta estructura: relación + fortaleza con ejemplo + resultado + cierre.</p>'+
+        T('Recomendación para alguien más','Trabajé con [nombre] en [proyecto o empresa] durante [tiempo]. Lo que más destaco es [fortaleza]: por ejemplo, [situación concreta], y gracias a eso [resultado]. Se lo recomendaría a cualquier equipo que necesite [habilidad].')}
+    ]},
+    {n:'Módulo 4 · Contenido y conversación',l:[
+      {t:'Comenta para hacer networking',min:7,h:
+        '<p>Comentar bien en publicaciones de reclutadores, líderes de tu sector y empresas objetivo te pone frente a su red, sin tener que publicar. Es la forma más rápida de que te conozcan.</p>'+
+        '<p><b>Fórmula:</b> aporta algo (una idea, tu experiencia o un dato) y cierra con una pregunta. "Excelente aporte" no cuenta.</p>'+
+        '<div class="compare2"><div><span class="k bad">Así no</span><p>¡Excelente publicación! 👏</p></div><div><span class="k good">Así sí</span><p>Lo vimos en un proyecto de clase con una distribuidora: el mayor costo estaba en las devoluciones, no en el transporte. ¿Ustedes lo miden por cliente o por ruta?</p></div></div>'+
+        '<p><b>Rutina:</b> sigue a 10 reclutadores y 10 empresas objetivo, activa la campana en los 5 más importantes y dedica 15 minutos al día a dejar 3 comentarios de valor.</p>'},
+      {t:'Tu primera publicación',min:6,h:
+        '<p>Tu primera publicación no tiene que ser perfecta. Una buena estructura:</p><ol><li><b>Gancho</b> en las primeras 1 o 2 líneas (es lo que se ve antes de "ver más").</li><li><b>Historia o aprendizaje</b> concreto.</li><li><b>3 ideas</b> en líneas cortas.</li><li><b>Cierre</b> con una pregunta para conversar.</li></ol>'+
+        '<p>Ideas para estudiantes: lo que aprendiste en un proyecto de clase, un resumen de una charla o feria, el antes y después de algo que mejoraste en tu práctica o emprendimiento, o una herramienta que te ahorra tiempo.</p>'+
+        T('Publicación para presentarte','Estoy terminando [carrera] en [universidad] y empiezo a buscar mi [práctica / primer empleo] en [área]. 🎯\n\nEn estos años aprendí tres cosas:\n1. [Aprendizaje 1, con un ejemplo]\n2. [Aprendizaje 2]\n3. [Aprendizaje 3]\n\nMe interesan empresas de [sector] en [ciudad]. Si sabes de alguna oportunidad o quieres conversar sobre [tema], escríbeme. ¿Qué consejo le darías a alguien que está empezando en [área]?')+
+        GO('opt-ai','Ideas de publicación con IA')},
+      {t:'Métricas que guían tu estrategia',min:6,h:
+        '<p>En tu perfil, la sección de análisis (solo la ves tú) muestra lo que funciona:</p>'+
+        '<div class="tbl"><table><thead><tr><th>Métrica</th><th>Qué te dice</th><th>Si está baja</th></tr></thead><tbody>'+
+        '<tr><td>Apariciones en búsquedas</td><td>Cuántas veces apareces y con qué palabras te buscan</td><td>Mejora titular, habilidades y palabras clave (paso 6)</td></tr>'+
+        '<tr><td>Visitas al perfil</td><td>Cuántos entran a verte y de qué empresas</td><td>Mejora foto y titular, comenta más (pasos 3 y 13)</td></tr>'+
+        '<tr><td>Impresiones de publicaciones</td><td>Cuánta gente vio lo que publicaste</td><td>Trabaja el gancho y responde comentarios (paso 14)</td></tr>'+
+        '<tr><td>Mensajes de reclutadores</td><td>Si tu perfil convierte</td><td>Revisa Acerca de, experiencia y Open to Work (pasos 7, 8 y 17)</td></tr></tbody></table></div>'+
+        '<p class="hz"><b>Hazlo ahora:</b> cada lunes anota esos cuatro números. Así sabes si tus cambios funcionan.</p>'}
+    ]},
+    {n:'Módulo 5 · Tácticas para conseguir el empleo',l:[
+      {t:'Alertas de empleo para aplicar de primero',min:5,h:
+        D('Quienes están entre los primeros 25 postulantes tienen hasta 3 veces más probabilidad de ser contratados.',SRC_25)+
+        '<ol><li>En Empleos busca tu cargo y ciudad.</li><li>Filtra por fecha (últimas 24 horas), nivel y modalidad.</li><li>Activa "Crear alerta de empleo" y recibe notificaciones en el celular.</li><li>Crea de 3 a 5 alertas con variaciones del cargo: practicante, aprendiz, analista junior.</li><li>Haz lo mismo en Computrabajo y elempleo.</li></ol>'+
+        '<p><b>La clave es estar listo:</b> con tu hoja de vida y tus plantillas preparadas, puedes aplicar en menos de una hora desde que sale la vacante.</p>'+GO('hv','Preparar mi hoja de vida')},
+      {t:'Open to Work: cuándo y cómo usarlo',min:6,h:
+        '<p>Tienes dos opciones de visibilidad:</p>'+
+        '<div class="tbl"><table><thead><tr><th>Opción</th><th>Quién lo ve</th><th>Efecto según LinkedIn</th></tr></thead><tbody><tr><td>Solo reclutadores</td><td>Reclutadores con LinkedIn Recruiter</td><td>2 veces más mensajes de reclutadores</td></tr><tr><td>Marco público #OpenToWork</td><td>Todos los que ven tu foto</td><td>40 % más InMails de reclutadores y 20 % más mensajes de tu red</td></tr></tbody></table></div>'+
+        '<p class="srcs">Fuente: '+SRC_OTW+'. Algunos reclutadores opinan que el marco público se ve desesperado; otros expertos lo defienden.</p>'+
+        '<p><b>Recomendación:</b> si eres estudiante o recién egresado, el marco público suele ayudar. Si tienes empleo, usa solo reclutadores.</p>'+
+        '<ol><li>En tu perfil, "Abierto a" y luego "Buscar empleo".</li><li>Agrega hasta 5 cargos, tus ciudades, modalidad, tipo de empleo y fecha de inicio.</li><li>Elige la visibilidad.</li></ol>'},
+      {t:'Mensajes directos a reclutadores y jefes',min:7,h:
+        '<p>Después de aplicar, escribirle a quien contrata te saca de la pila. En muchas vacantes aparece la sección "Conoce al equipo de contratación" o quién publicó el aviso; si no, busca al jefe del área en la empresa.</p>'+
+        '<p><b>Estructura (menos de 100 palabras):</b> contexto (me postulé a…) + encaje (dos requisitos del aviso con tu prueba) + un pedido pequeño + cierre amable.</p>'+
+        T('Al reclutador, después de aplicar','Hola, [nombre]. Me postulé a [cargo] en [empresa]. Cumplo con [requisito 1] y [requisito 2]: por ejemplo, [logro con cifra]. Quería ponerle cara a mi postulación. ¿Hay algo más que pueda enviarte?')+
+        T('Al jefe del área','Hola, [nombre]. Vi que tu equipo busca [cargo]. Estoy terminando [carrera] y en [experiencia o proyecto] logré [resultado con cifra]. Me encantaría aportar en [tema del equipo]. ¿Tendrías 10 minutos esta semana para contarte cómo?')+
+        T('Seguimiento (5 a 7 días hábiles después, una sola vez)','Hola, [nombre]. Te escribo para saber si hay novedades sobre [cargo]. Sigo muy interesado. Mientras tanto, [algo de valor: un dato, una idea sobre la empresa o un avance tuyo].')+
+        '<p><b>Evita:</b> "¿Hay trabajo?", mensajes genéricos copiados a todos, enviar audios y escribir muchas veces.</p>'}
+    ]}
+  ];
+  var ruta=LS('ruta')||{};
+  function rutaTotal(){var n=0;MODS.forEach(function(m){n+=m.l.length});return n}
+  function rutaProg(){
+    var done=Object.keys(ruta).filter(function(k){return ruta[k]}).length, tot=rutaTotal();
+    $('#rutaTxt').textContent=done+' de '+tot+' pasos';$('#rutaBar').style.width=Math.round(done/tot*100)+'%';
+  }
+  function renderRuta(){
+    var box=$('#rutaList');box.innerHTML='';var k=0;
+    MODS.forEach(function(m){
+      box.appendChild(el('div',{cls:'modt',text:m.n}));
+      m.l.forEach(function(L){
+        k++;var id='p'+k, num=k;
+        var d=el('details',{cls:'les','data-id':id});
+        var badge=el('span',{cls:'lnum'+(ruta[id]?' done':''),text:ruta[id]?'✓':String(num)});
+        d.appendChild(el('summary',null,[badge,el('span',{cls:'lt',text:L.t}),el('span',{cls:'lm',text:L.min+' min'})]));
+        var body=el('div',{cls:'lbody'});body.innerHTML=L.h;
+        var cb=el('input',{type:'checkbox',id:'ck-'+id});cb.checked=!!ruta[id];
+        cb.addEventListener('change',function(){ruta[id]=cb.checked;LS('ruta',ruta);badge.className='lnum'+(cb.checked?' done':'');badge.textContent=cb.checked?'✓':String(num);rutaProg()});
+        body.appendChild(el('label',{cls:'donechk','for':'ck-'+id},[cb,'Ya lo hice']));
+        d.appendChild(body);box.appendChild(d);
+      });
+    });
+    rutaProg();
+    var c=$('#car-c'),a=$('#car-a'),r=$('#car-r');
+    function car(){var x=[c.value.trim(),a.value.trim(),r.value.trim()];$('#car-out').textContent=x.every(function(v){return !v})?'Escribe las tres partes.':(x[0]?x[0].charAt(0).toUpperCase()+x[0].slice(1)+'; ':'')+(x[1]||'[acción]')+'; '+(x[2]||'[resultado con cifra]')+'.'}
+    [c,a,r].forEach(function(i){i.addEventListener('input',car)});
+    $('#car-copy').addEventListener('click',function(){copyText($('#car-out').textContent,$('#car-copy'))});
+  }
+  function copyText(text,b){
+    function ok(){b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar'},1500)}
+    try{navigator.clipboard.writeText(text).then(ok,function(){b.textContent='Selecciona y copia'})}catch(e){b.textContent='Selecciona y copia'}
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.cpy');if(b){var pre=b.closest('.tpl').querySelector('pre');copyText(pre.textContent,b);return}
+    var g=e.target.closest('[data-goto]');if(!g)return;
+    var t=g.dataset.goto;
+    if(t==='hv'){show('hv');window.scrollTo(0,0);return}
+    liSub('opt');
+    var map={'opt-form':'#liForm','opt-photo':'#liPhotoCard','opt-ai':'#liGo','opt-matrix':'#liMatrix'}, tgt=$(map[t]||'#liForm');
+    if(tgt&&tgt.hidden)tgt=$('#liGo');
+    setTimeout(function(){if(tgt)tgt.scrollIntoView({behavior:'smooth',block:'center'})},50);
+  });
+  function liSub(s){
+    $('#li-ruta').hidden=(s!=='ruta');$('#li-opt').hidden=(s!=='opt');
+    $$('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.sub===s?'true':'false')});
+    LS('liSub',s);
+  }
+  $$('.seg button').forEach(function(b){b.addEventListener('click',function(){liSub(b.dataset.sub)})});
+  renderRuta(); liSub(LS('liSub')||'ruta');
+
+  /* Arranque */
+  renderHvAll(); renderVacs(); renderMine();
+  var startTab=LS('tab')||'hv'; show(startTab==='panel'?'hv':startTab);
+  (async function(){
+    var C=window.claude; if(!C||!C.use){note('Abre esta página desde Trabajo Ya con tu cuenta para aplicar a empresas.');return}
+    try{sample=await C.use('sample')}catch(e){}
+    try{downloads=await C.use('downloads')}catch(e){}
+    initPhoto();
+    try{db=await C.use('db');user=await C.use('user')}catch(e){}
+    if(user){try{uid=await user.id();isEditor=await user.canEdit();canWrite=await user.can('data.write')}catch(e){}}
+    if(!db||!uid){note('Inicia sesión para ver las empresas y aplicar. Tu hoja de vida queda guardada en este navegador mientras tanto.');renderVacs();return}
+    if(canWrite===false&&!isEditor) note('Tienes acceso de solo lectura: puedes ver las entrevistas, pero para aplicar necesitas acceso de colaborador.');
+    // Hoja de vida guardada en la cuenta
+    try{var s=await db.doc('data/users/'+uid+'/hv').get();if(s.exists){fillHv(s.data());LS('hv',readHv());renderHvAll()}}catch(e){}
+    // Vacantes en vivo
+    db.collection('vacantes').orderBy('creado','desc').onSnapshot(function(q){vacs=q.docs.map(function(d){return {id:d.id,data:d.data()}});renderVacs();if(isEditor)renderPanelVacs()},function(){});
+    // Mis postulaciones en vivo
+    db.doc('postulaciones/'+uid).onSnapshot(function(s){mine=s.exists?s.data():{apps:{}};renderMine();renderVacs()},function(){});
+    // Panel
+    if(isEditor){
+      $('#panelTab').hidden=false;
+      try{assets=await C.use('assets')}catch(e){}
+      if(LS('tab')==='panel') show('panel');
+      db.collection('postulaciones').onSnapshot(function(q){
+        allApps=[];q.docs.forEach(function(d){var x=d.data()||{},apps=x.apps||{};Object.keys(apps).forEach(function(vid){allApps.push({cid:d.id,vid:vid,app:apps[vid],hv:x.hv})})});
+        renderPanelApps();renderPanelVacs();
+      },function(){});
+      renderPanelVacs();renderPanelApps();
+    }
+  })();
+})();
+</script>

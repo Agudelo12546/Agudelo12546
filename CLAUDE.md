@@ -11,7 +11,7 @@ Encargo original completo: `docs/PROMPT-CLAUDE-CODE.md`. Plan por fases: `docs/P
 
 ## Idioma
 
-- Con el usuario (Matías): español.
+- Con el usuario: español.
 - Interfaz: 100 % español de Colombia, textos simples y directos como en el prototipo, sin jerga técnica.
 - Código, nombres técnicos, commits: inglés. Nombres de dominio que vienen del prototipo pueden quedar en español cuando son contenido (`MODS`, estados "Le interesas"...).
 
@@ -30,19 +30,23 @@ Encargo original completo: `docs/PROMPT-CLAUDE-CODE.md`. Plan por fases: `docs/P
 
 ## Comandos
 
-(Se completan en la Fase 1; mantener esta sección al día.)
-
 ```bash
 pnpm install
-pnpm dev              # servidor local
-pnpm lint
-pnpm typecheck
-pnpm test             # Vitest
-pnpm test:e2e         # Playwright
-pnpm db:start         # Supabase local (Docker)
-pnpm db:reset         # aplica migraciones + datos de ejemplo
-pnpm db:types         # regenera tipos TypeScript de la base
+pnpm db:start         # Supabase local (Docker): Postgres, Auth, Storage. Excluye servicios opcionales.
+pnpm env:local        # crea .env.local con las llaves locales
+pnpm dev              # http://localhost:3000
+pnpm lint && pnpm typecheck && pnpm test   # antes de cada push
+pnpm db:test          # pruebas pgTAP de RLS con psql (supabase/tests)
+pnpm test:e2e         # Playwright; en la nube: PW_CHROMIUM=/opt/pw-browsers/chromium pnpm test:e2e
+pnpm db:reset         # reaplica migraciones
+pnpm admin:make <correo>   # vuelve admin una cuenta registrada
+pnpm seed:sample      # empresas "de ejemplo" (solo local)
 ```
+
+Notas del entorno:
+- Next.js 16: `middleware` ahora es `src/proxy.ts`; `cookies()`/`params` son async. `cacheComponents` está apagado a propósito (casi todo depende de la sesión). Antes de usar APIs de Next, revisar `node_modules/next/dist/docs/`.
+- Tipos `PageProps`/`LayoutProps` los genera `next typegen` (incluido en `pnpm typecheck`).
+- Los videos de entrevistas se suben del navegador directo a Supabase Storage (bucket privado `interview-videos`, ruta `<company_id>/<archivo>`) con subida reanudable TUS; se muestran con URLs firmadas de 1 hora.
 
 ## Estructura de carpetas (objetivo)
 
@@ -72,7 +76,7 @@ e2e/                      pruebas Playwright
 - Las empresas solo ven postulantes de SUS vacantes. Las universidades solo agregados (hojas de vida individuales solo con consentimiento).
 - Ninguna llave llega al navegador. La llave de Claude y la service role de Supabase solo en código de servidor. Nunca subir secretos; todo en `.env.example` con valores vacíos.
 - Ley 1581 de 2012 (Habeas Data): consentimiento explícito al registrarse y al aplicar ("autorizo enviar mi hoja de vida a esta empresa"); consultar, corregir y borrar datos. El borrado de cuenta elimina también archivos y embeddings.
-- No pedir datos innecesarios: cédula, estado civil, edad, foto obligatoria.
+- No pedir datos innecesarios: cédula, estado civil, foto obligatoria. La **edad** sí se pide al registrarse (decisión de producto, 13-oct-2026) pero es privada: solo para estadísticas agregadas, nunca visible para empresas ni incluida en la hoja de vida.
 - Términos y política de privacidad marcados como **borrador** para revisión de un abogado.
 - Los prompts de análisis del aprendizaje usan datos **anonimizados**; hay pruebas que lo verifican.
 

@@ -1,6 +1,11 @@
 # Trabajo Ya: plan por fases
 
-Estado: **propuesta, esperando confirmación** antes de empezar la Fase 1.
+Estado: **Fase 1 terminada (en local)**. Plan confirmado el 13-oct-2026 con estos ajustes:
+
+- Por ahora todo corre en local; el despliegue en Vercel y Supabase en la nube queda para después.
+- Registro solo con correo (sin Google por ahora), con nombre, correo, celular, edad (privada), ciudad, situación y, opcional, universidad y carrera.
+- El admin registra las empresas y sube los videos de las entrevistas mientras las hace. Por eso la gestión de empresas, vacantes y videos se adelantó a la Fase 1. Los videos se guardan en Supabase Storage (subida reanudable de hasta 2 GB) o como enlace de YouTube/Drive; Mux o Cloudflare Stream se evaluarán al desplegar.
+- El puntaje se mantiene idéntico al prototipo como versión 1 de los pesos.
 
 Cada fase termina con pruebas que pasan, un despliegue de vista previa y un resumen corto (qué quedó, cómo probarlo, qué falta). Las fases 5 y 6 dependen de tener datos reales; las anteriores se pueden usar sin ellas.
 

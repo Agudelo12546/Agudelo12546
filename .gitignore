@@ -48,3 +48,6 @@ next-env.d.ts
 # Supabase local
 supabase/.temp/
 supabase/.branches/
+
+# Paquete descargable generado con git archive
+/trabajo-ya.zip
